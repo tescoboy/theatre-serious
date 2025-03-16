@@ -51,23 +51,24 @@ class Navigation {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 
-                // Remove 'active' class from all links
-                this.navLinks.forEach(navLink => {
-                    navLink.classList.remove('active');
-                });
+                // Get the view name from the link ID (remove '-link' suffix)
+                const view = link.id.replace('-link', '');
+                console.log(`Navigation link clicked: ${link.id}, switching to view: ${view}`);
                 
-                // Add 'active' class to the clicked link
+                // Set this link as active
+                this.navLinks.forEach(l => l.classList.remove('active'));
                 link.classList.add('active');
                 
-                // Close the navbar if it's expanded (on mobile)
-                if (this.navbarCollapse.classList.contains('show')) {
-                    this.navbarCollapse.classList.remove('show');
-                    this.navbarToggler.setAttribute('aria-expanded', 'false');
+                // Close the navbar collapse on mobile
+                if (this.navbarToggler && this.navbarCollapse && window.getComputedStyle(this.navbarToggler).display !== 'none') {
+                    const bsCollapse = new bootstrap.Collapse(this.navbarCollapse);
+                    bsCollapse.hide();
                 }
                 
-                // Get the view ID and change to that view
-                const viewId = link.id;
-                this.changeView(viewId);
+                // Dispatch custom event to change the view
+                document.dispatchEvent(new CustomEvent('viewChanged', {
+                    detail: { view: view }
+                }));
             });
         });
         
@@ -112,38 +113,6 @@ class Navigation {
                 // Dispatch event to show add play form
                 document.dispatchEvent(new CustomEvent('showAddPlayForm'));
             });
-        }
-    }
-    
-    /**
-     * Change view based on link ID
-     * @param {string} viewId - The ID of the nav link
-     */
-    changeView(viewId) {
-        switch (viewId) {
-            case 'dashboard-link':
-                this.showDashboard();
-                break;
-            case 'table-view-link':
-                this.showTableView();
-                break;
-            case 'calendar-view-link':
-                this.showCalendarView();
-                break;
-            case 'upcoming-plays-link':
-                this.showUpcomingPlaysView();
-                break;
-            case 'past-plays-link':
-                this.showPastPlaysView();
-                break;
-            case 'unrated-plays-link':
-                this.showUnratedPlaysView();
-                break;
-            case 'add-play-link':
-                document.dispatchEvent(new CustomEvent('showAddPlayForm'));
-                break;
-            default:
-                console.log('Unknown view:', viewId);
         }
     }
     

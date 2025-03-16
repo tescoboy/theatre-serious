@@ -23,6 +23,10 @@ class PlayCard {
         const imageUrl = this.play.image || 'https://placehold.co/600x400/f3e9ea/7D2935?text=No+Image';
         const rating = this.play.rating || '';
         const playId = this.play.id;
+        const hasReview = this.play.review ? true : false;
+        
+        // Check if the play is in the future (upcoming)
+        const isUpcoming = date ? new Date(date) > new Date() : false;
         
         // Format date directly using UK format instead of relying on FormatUtils
         let formattedDate = 'Date not specified';
@@ -42,6 +46,23 @@ class PlayCard {
                 formattedDate = 'Date error';
             }
         }
+        
+        // Create footer with review button only for past plays
+        const footerHtml = !isUpcoming ? `
+            <div class="card-footer bg-transparent border-top-0 d-flex justify-content-between align-items-center">
+                ${hasReview ? `
+                    <button class="btn btn-sm btn-link text-primary review-play-btn" data-play-id="${playId}" title="Read Review">
+                        <i class="bi bi-bookmark-star-fill"></i>
+                        <span class="ms-1 small">Read Review</span>
+                    </button>
+                ` : `
+                    <button class="btn btn-sm btn-link text-muted review-play-btn" data-play-id="${playId}" title="Add Review">
+                        <i class="bi bi-journal-plus"></i>
+                        <span class="ms-1 small">Add Review</span>
+                    </button>
+                `}
+            </div>
+        ` : '';
         
         return `
             <div class="play-card card h-100 shadow-sm">
@@ -71,6 +92,7 @@ class PlayCard {
                         </div>` : ''}
                     </div>
                 </div>
+                ${footerHtml}
             </div>
         `;
     }

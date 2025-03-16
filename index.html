@@ -23,7 +23,7 @@
                     <span class="logo-serious">Serious</span><span class="logo-theatre">Theatre</span>
                 </span>
             </a>
-            <button class="navbar-toggler always-visible" type="button" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -56,6 +56,11 @@
                     <li class="nav-item d-none" id="unrated-plays-menu-item">
                         <a class="nav-link" href="#" id="unrated-plays-link">
                             <i class="bi bi-star nav-icon"></i> Unrated Plays
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="reviews-link">
+                            <i class="bi bi-journal-bookmark nav-icon"></i> Reviews
                         </a>
                     </li>
                     <li class="nav-item">
@@ -233,6 +238,16 @@
                 </div>
             </div>
         </div>
+
+        <!-- Reviews View -->
+        <div id="reviews-view" class="view d-none">
+            <div class="text-center py-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2">Loading reviews...</p>
+            </div>
+        </div>
     </div>
 
     <!-- Bootstrap Bundle with Popper -->
@@ -255,6 +270,8 @@
     <script src="src/components/PastPlaysView.js"></script>
     <script src="src/components/UnratedPlaysView.js"></script>
     <script src="src/components/AddPlayForm.js"></script>
+    <script src="src/components/PlayReviewForm.js"></script>
+    <script src="src/components/ReviewsView.js"></script>
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {

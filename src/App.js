@@ -13,6 +13,8 @@ class App {
         this.pastPlaysView = new PastPlaysView();
         this.unratedPlaysView = new UnratedPlaysView();
         this.addPlayForm = new AddPlayForm();
+        this.playReviewForm = new PlayReviewForm();
+        this.reviewsView = new ReviewsView();
         
         // Listen for view changes
         document.addEventListener('viewChanged', (e) => this.handleViewChanged(e.detail.view));
@@ -24,19 +26,27 @@ class App {
      * Initialize the app
      */
     async initialize() {
+        console.log('Initializing app...');
+        
         try {
             // Initialize components
             this.addPlayForm.initialize();
             this.dashboard.initialize();
+            this.pastPlaysView.initialize();
             
-            // Initialize event listeners
-            this.initEventListeners();
+            // Initialize the review form
+            this.playReviewForm.initialize();
+            
+            // Set up global event listeners
+            this.setupEventListeners();
             
             // Fetch data
             await this.fetchPlaysData();
             
             // Initialize the starting view (dashboard)
             this.handleViewChanged('dashboard');
+            
+            console.log('App initialized successfully');
         } catch (error) {
             console.error('Error initializing app:', error);
         }
@@ -44,12 +54,47 @@ class App {
     
     /**
      * Handle view changes
-     * @param {string} view - The view to switch to ('table' or 'calendar' or 'upcoming' or 'past' or 'unrated' or 'dashboard')
+     * @param {string} view - The view to switch to
      */
     handleViewChanged(view) {
+        console.log(`Switching to view: ${view}`);
+        
+        // Create a mapping for special view cases
+        const viewIdMap = {
+            'past': 'past-plays-view',
+            'upcoming': 'upcoming-plays-view',
+            'unrated': 'unrated-plays-view',
+            'table': 'table-view',
+            'calendar': 'calendar-view'
+        };
+        
+        // Get the correct element ID using the mapping or default format
+        const elementId = viewIdMap[view] || `${view}-view`;
+        
+        // Hide all views - add specific view IDs
+        document.getElementById('dashboard-view').classList.add('d-none');
+        document.getElementById('table-view').classList.add('d-none');
+        document.getElementById('calendar-view').classList.add('d-none');
+        document.getElementById('upcoming-plays-view').classList.add('d-none');
+        document.getElementById('past-plays-view').classList.add('d-none');
+        document.getElementById('unrated-plays-view').classList.add('d-none');
+        document.getElementById('reviews-view').classList.add('d-none');
+        
+        // Show the selected view
+        const viewEl = document.getElementById(elementId);
+        if (viewEl) {
+            viewEl.classList.remove('d-none');
+            console.log(`Now showing view: ${elementId}`);
+        } else {
+            console.error(`View element not found: ${elementId}`);
+        }
+        
+        // Initialize the appropriate view
         if (view === 'dashboard') {
             this.dashboard.setPlaysData(this.allPlaysData);
             this.dashboard.attachEventListeners();
+        } else if (view === 'table') {
+            // Table view already initialized
         } else if (view === 'calendar') {
             this.calendarController.initialize();
             this.calendarController.setPlaysData(this.allPlaysData);
@@ -62,6 +107,9 @@ class App {
         } else if (view === 'unrated') {
             this.unratedPlaysView.initialize();
             this.unratedPlaysView.setPlaysData(this.allPlaysData);
+        } else if (view === 'reviews') {
+            this.reviewsView.initialize();
+            this.reviewsView.setPlaysData(this.allPlaysData);
         }
     }
     
@@ -126,44 +174,59 @@ class App {
     }
 
     /**
-     * Initialize event listeners
+     * Set up global event listeners
      */
-    initEventListeners() {
+    setupEventListeners() {
+        console.log('Setting up App event listeners');
+        
         // Listen for play events
         document.addEventListener('playAdded', (e) => {
-            console.log('Play added event received', e.detail);
+            console.log('Play added event received:', e.detail.play);
             this.refreshData();
         });
         
         document.addEventListener('playUpdated', (e) => {
-            console.log('Play updated event received', e.detail);
+            console.log('Play updated event received:', e.detail.play);
             this.refreshData();
         });
         
         document.addEventListener('playDeleted', (e) => {
-            console.log('Play deleted event received', e.detail);
+            console.log('Play deleted event received:', e.detail.playId);
             this.refreshData();
         });
         
-        // Listen for show add play form event
-        document.addEventListener('showAddPlayForm', () => {
-            console.log('Show add play form event received');
-            this.addPlayForm.showAddForm();
+        // Click event for review buttons
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.review-play-btn')) {
+                const button = e.target.closest('.review-play-btn');
+                const playId = button.getAttribute('data-play-id');
+                console.log(`Review button clicked for play ID: ${playId}`);
+                
+                // Dispatch event to show review
+                document.dispatchEvent(new CustomEvent('showPlayReview', { 
+                    detail: { playId: parseInt(playId) }
+                }));
+            }
         });
     }
 
     /**
-     * Refresh data after a play is added
+     * Refresh all data
      */
     async refreshData() {
+        console.log('Refreshing data...');
+        
         try {
             await this.fetchPlaysData();
             
-            // Refresh the current view
+            // Update current view with new data
             const currentView = document.querySelector('.nav-link.active');
             if (currentView) {
-                currentView.click();
+                const view = currentView.id.replace('-link', '');
+                this.handleViewChanged(view);
             }
+            
+            console.log('Data refreshed successfully');
         } catch (error) {
             console.error('Error refreshing data:', error);
         }

@@ -5,7 +5,8 @@
  */
 async updatePlay(play) {
     console.log('Updating play in database:', play);
-    console.log('Rating type:', typeof play.rating, 'Value:', play.rating);
+    console.log('Review in play object:', play.review);
+    console.log('Review updated at:', play.review_updated_at);
     
     try {
         // Make sure we have valid data
@@ -13,24 +14,35 @@ async updatePlay(play) {
             throw new Error('Invalid play data for update');
         }
         
+        // Create update object with all fields explicitly
+        const updateData = {
+            name: play.name,
+            date: play.date,
+            theatre: play.theatre,
+            image: play.image,
+            rating: play.rating,
+            review: play.review,
+            review_updated_at: play.review_updated_at,
+            updated_at: new Date().toISOString()
+        };
+        
+        console.log('Update data being sent to Supabase:', updateData);
+        
         // Make the Supabase update
         const { data, error } = await this.supabase
             .from('plays')
-            .update({
-                name: play.name,
-                date: play.date,
-                theatre: play.theatre,
-                image: play.image,
-                rating: play.rating, // Ensure this is explicitly included
-                updated_at: new Date().toISOString()
-            })
+            .update(updateData)
             .eq('id', play.id)
             .select()
             .single();
         
-        if (error) throw error;
+        if (error) {
+            console.error('Supabase update error:', error);
+            throw error;
+        }
         
-        console.log('Successfully updated play:', data);
+        console.log('Successfully updated play with review:', data);
+        console.log('Review in returned data:', data.review);
         return data;
     } catch (error) {
         console.error('Error updating play:', error);

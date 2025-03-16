@@ -95,30 +95,38 @@ const SupabaseService = (function() {
          * @returns {Promise<Object>} The updated play data
          */
         updatePlay: async function(play) {
-            // Validate required fields
-            if (!play.id || !play.name || !play.date) {
-                throw new Error('Play ID, name, and date are required');
-            }
+            console.log('supabase.js: Updating play with all fields:', play);
             
             try {
+                // Show all fields we're updating
+                const updateFields = {
+                    name: play.name,
+                    date: play.date,
+                    theatre: play.theatre,
+                    image: play.image,
+                    rating: play.rating,
+                    review: play.review,
+                    review_updated_at: play.review_updated_at,
+                    updated_at: new Date().toISOString()
+                };
+                
+                console.log('supabase.js: Fields being updated:', updateFields);
+                
+                // Use the existing supabaseClient
                 const { data, error } = await supabaseClient
                     .from('plays')
-                    .update({
-                        name: play.name,
-                        date: play.date,
-                        theatre: play.theatre,
-                        rating: play.rating,
-                        image: play.image
-                    })
+                    .update(updateFields)
                     .eq('id', play.id)
-                    .select();
+                    .select('*')
+                    .single();
                 
-                if (error) {
-                    throw error;
-                }
+                if (error) throw error;
                 
-                console.log('Play updated successfully:', data);
-                return data[0];
+                console.log('supabase.js: Play updated successfully:', data);
+                console.log('supabase.js: Review field present in response?', data.hasOwnProperty('review'));
+                console.log('supabase.js: Review value:', data.review);
+                
+                return data;
             } catch (error) {
                 console.error('Error updating play:', error);
                 throw error;

@@ -1480,23 +1480,6 @@ document.addEventListener('scroll', function() {
     margin: 0 auto;
 }
 
-.review-content {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 1.2rem;
-    line-height: 1.8;
-    color: #333;
-}
-
-.review-content::first-letter {
-    float: left;
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: 4.5rem;
-    line-height: 0.8;
-    padding-top: 0.1em;
-    padding-right: 0.15em;
-    color: #7D2935;
-}
-
 .review-footer {
     margin-top: 3rem;
     padding-top: 1rem;
@@ -1516,10 +1499,6 @@ document.addEventListener('scroll', function() {
         font-size: 1.1rem;
     }
     
-    .review-content::first-letter {
-        font-size: 3.5rem;
-    }
-    
     .rating-display-large {
         transform: scale(1.2);
     }
@@ -1534,4 +1513,90 @@ document.addEventListener('scroll', function() {
 .btn-outline-secondary:disabled {
     color: #adb5bd;
     border-color: #dee2e6;
+}
+
+/* Make sure there's no drop cap styling */
+.review-content::first-letter {
+    font-size: inherit;
+    font-family: inherit;
+    color: inherit;
+    float: none;
+    line-height: inherit;
+    padding: 0;
+    margin: 0;
+}
+
+/* Elegant drop cap styling that works with short text */
+.review-content p:first-of-type::first-letter {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.8em;
+    font-weight: 700;
+    color: #7D2935;
+    margin-right: 0.15em;
+    line-height: 0.8;
+    display: inline-block;
+    vertical-align: baseline;
+    position: relative;
+    top: 0.05em;
+}
+
+/* Make sure only the first paragraph gets the drop cap */
+.review-content p:not(:first-of-type)::first-letter {
+    font-size: inherit;
+    font-family: inherit;
+    color: inherit;
+    font-weight: inherit;
+}
+
+/* Desktop Navigation Enhancements - Remove burger menu */
+@media (min-width: 992px) {
+    /* Hide the navbar toggler (hamburger button) on desktop */
+    .navbar-toggler {
+        display: none !important;
+    }
+    
+    /* Always show the navbar-collapse on desktop */
+    .navbar-collapse {
+        display: flex !important;
+        flex-basis: auto;
+    }
+    
+    /* Ensure nav items are properly spaced */
+    .navbar-nav {
+        flex-direction: row;
+    }
+    
+    .navbar-nav .nav-item {
+        margin-right: 1rem;
+    }
+    
+    /* Ensure dropdown menus work correctly */
+    .navbar-nav .dropdown-menu {
+        position: absolute;
+    }
+}
+
+/* Make sure navbar is properly responsive on mobile */
+@media (max-width: 991.98px) {
+    .navbar-collapse {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+    
+    .navbar-nav .nav-item {
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* More specific override for navbar-toggler */
+@media (min-width: 992px) {
+    /* Target the navbar-toggler with the always-visible class specifically */
+    .navbar-toggler.always-visible {
+        display: none !important;
+    }
+    
+    /* Additional overrides to ensure proper display */
+    button.navbar-toggler {
+        display: none !important;
+    }
 } 
