@@ -171,11 +171,18 @@ class AddPlayForm {
             deleteButton.addEventListener('click', () => this.confirmDeletePlay());
         }
         
-        // Reset rating button
-        const resetRatingButton = document.getElementById('reset-rating-btn');
-        if (resetRatingButton) {
-            resetRatingButton.addEventListener('click', () => this.resetRating());
-        }
+        // Reset rating button - MODIFIED
+        document.getElementById('reset-rating-btn').addEventListener('click', () => {
+            // Just reset the rating input locally without showing a toast
+            this.ratingInput.clear();
+            document.getElementById('play-rating').value = '';
+            console.log('Rating cleared. Changes will be saved when you click Update Play');
+            
+            // Show a message that indicates it's not saved yet
+            const warningToast = new bootstrap.Toast(document.getElementById('warning-toast') || this.createWarningToast());
+            document.getElementById('warning-toast-message').textContent = 'Rating reset. Click Update Play to save changes.';
+            warningToast.show();
+        });
         
         // Listen for edit play events
         document.addEventListener('editPlay', (e) => {
@@ -222,10 +229,13 @@ class AddPlayForm {
             }
             
             console.log(`Editing play with ID: ${playId}`);
+            console.log('Previous play ID:', this.currentPlayId);
+            console.log('Is this a different play than last time?', playId !== this.currentPlayId);
             
             // Get play data
             const play = await SupabaseService.getPlayById(playId);
             console.log('Play data fetched:', play);
+            console.log('Rating from database (raw):', play.rating, 'type:', typeof play.rating);
             
             if (!play) {
                 console.error('Play not found');
@@ -235,6 +245,10 @@ class AddPlayForm {
             // Set edit mode
             this.editMode = true;
             this.currentPlayId = playId;
+            
+            // Reset the form first to clear previous data
+            this.resetForm();
+            console.log('Form reset, now loading new play data');
             
             // Update UI for edit mode
             document.getElementById('add-play-modal-label').textContent = 'Edit Play';
@@ -255,8 +269,46 @@ class AddPlayForm {
             // Show the modal
             this.modal.show();
             
-            // Set the rating input value when editing
-            this.ratingInput.setValue(play.rating);
+            // Recreate the rating input to ensure it's fresh
+            const ratingContainer = document.getElementById('play-rating-container');
+            if (ratingContainer) {
+                // Clear the container first
+                ratingContainer.innerHTML = '';
+                
+                // Create a new rating input
+                this.ratingInput = new RatingInput({
+                    containerId: 'play-rating-container',
+                    onChange: (value) => {
+                        console.log('Rating changed:', value);
+                        document.getElementById('play-rating').value = value;
+                    }
+                });
+                
+                console.log('Rating input recreated');
+            }
+            
+            // Parse the rating value properly for the rating input
+            let ratingValue = null;
+            if (play.rating !== null && play.rating !== undefined && play.rating !== '') {
+                // Parse the string rating to a number if it's a numeric string
+                if (typeof play.rating === 'string' && !isNaN(parseFloat(play.rating))) {
+                    ratingValue = parseFloat(play.rating);
+                    console.log(`Parsed string rating "${play.rating}" to number:`, ratingValue);
+                } else {
+                    ratingValue = play.rating;
+                    console.log(`Using rating as-is:`, ratingValue);
+                }
+            }
+            
+            // Set the rating input value after parsing
+            console.log('Setting rating input value to:', ratingValue);
+            
+            // Add a small delay to let the new rating input initialize
+            setTimeout(() => {
+                this.ratingInput.setValue(ratingValue);
+                console.log('Rating value set after delay');
+            }, 100);
+            
         } catch (error) {
             console.error('Error editing play:', error);
             alert(`Error editing play: ${error.message}`);
@@ -339,6 +391,16 @@ class AddPlayForm {
             const date = document.getElementById('play-date').value;
             const theatre = document.getElementById('play-theatre').value.trim();
             const rating = document.getElementById('play-rating').value;
+            
+            console.log('Rating from form (raw):', rating, 'type:', typeof rating);
+            
+            // Modified: Preserve decimal ratings instead of using parseInt
+            let parsedRating = null;
+            if (rating !== null && rating !== '' && rating !== undefined) {
+                parsedRating = parseFloat(rating); // Use parseFloat instead of parseInt to preserve decimals
+                console.log('Parsed rating (with decimals):', parsedRating);
+            }
+            
             const image = document.getElementById('play-image').value.trim();
             
             // Create play object
@@ -346,9 +408,11 @@ class AddPlayForm {
                 name: name,
                 date: date,
                 theatre: theatre || null,
-                rating: rating ? parseInt(rating) : null,
+                rating: parsedRating, // Use the properly parsed rating
                 image: image || null
             };
+            
+            console.log('Saving play with rating:', play.rating, 'type:', typeof play.rating);
             
             // Add ID if editing
             if (this.editMode) {
@@ -368,7 +432,7 @@ class AddPlayForm {
                 result = await SupabaseService.addPlay(play);
             }
             
-            console.log('Save result:', result);
+            console.log('Save result with rating:', result.rating, 'type:', typeof result.rating);
             
             // Hide modal
             this.modal.hide();
@@ -387,52 +451,6 @@ class AddPlayForm {
             const saveButton = document.getElementById('save-play-btn');
             saveButton.innerHTML = this.editMode ? 'Update Play' : 'Save Play';
             saveButton.disabled = false;
-        }
-    }
-    
-    /**
-     * Reset the rating for the current play
-     */
-    async resetRating() {
-        if (!this.editMode || !this.currentPlayId) {
-            console.log('Cannot reset rating: not in edit mode');
-            return;
-        }
-        
-        try {
-            console.log(`Resetting rating for play ID: ${this.currentPlayId}`);
-            
-            // Show loading state
-            const resetButton = document.getElementById('reset-rating-btn');
-            resetButton.innerHTML = `<span class="spinner-border spinner-border-sm"></span> Resetting...`;
-            resetButton.disabled = true;
-            
-            // Get current play
-            const play = await SupabaseService.getPlayById(this.currentPlayId);
-            
-            // Update rating to null
-            play.rating = null;
-            
-            // Save to database
-            await SupabaseService.updatePlay(play);
-            
-            // Update form
-            document.getElementById('play-rating').value = '';
-            
-            // Reset button
-            resetButton.innerHTML = 'Reset Rating';
-            resetButton.disabled = false;
-            
-            // Show success message
-            this.showSuccessToast('Rating reset successfully!');
-        } catch (error) {
-            console.error('Error resetting rating:', error);
-            alert(`Error resetting rating: ${error.message}`);
-            
-            // Reset button
-            const resetButton = document.getElementById('reset-rating-btn');
-            resetButton.innerHTML = 'Reset Rating';
-            resetButton.disabled = false;
         }
     }
     
@@ -533,18 +551,60 @@ class AddPlayForm {
      */
     async loadTheatres() {
         try {
-            // Get theatres if not already loaded
-            if (this.theatres.length === 0) {
-                this.theatres = await SupabaseService.getTheatres();
-            }
+            console.log('Loading theatres...');
             
-            // Update datalist
+            // Create a fallback solution by using existing SupabaseService methods
+            // Since SupabaseService has other methods, we'll use it to query plays
+            const plays = await SupabaseService.fetchPlays();
+            console.log('Fetched plays for theatre extraction:', plays.length);
+            
+            // Extract unique theatre names from the plays we already have
+            const theatres = [...new Set(plays
+                .map(play => play.theatre)
+                .filter(theatre => theatre && theatre.trim() !== '')
+            )].sort();
+            
+            console.log(`Extracted ${theatres.length} unique theatres from plays`);
+            
+            // Update the datalist
             const datalist = document.getElementById('theatre-suggestions');
-            datalist.innerHTML = this.theatres.map(theatre => 
-                `<option value="${theatre}">`
-            ).join('');
+            if (datalist) {
+                datalist.innerHTML = '';
+                
+                // Add each theatre as an option
+                theatres.forEach(theatre => {
+                    const option = document.createElement('option');
+                    option.value = theatre;
+                    datalist.appendChild(option);
+                });
+            }
         } catch (error) {
             console.error('Error loading theatres:', error);
         }
+    }
+    
+    /**
+     * Create warning toast element
+     * @returns {HTMLElement} The warning toast element
+     */
+    createWarningToast() {
+        const toastElement = document.createElement('div');
+        toastElement.className = 'toast align-items-center text-white bg-warning border-0 position-fixed bottom-0 end-0 m-3';
+        toastElement.id = 'warning-toast';
+        toastElement.setAttribute('role', 'alert');
+        toastElement.setAttribute('aria-live', 'assertive');
+        toastElement.setAttribute('aria-atomic', 'true');
+        
+        toastElement.innerHTML = `
+            <div class="d-flex">
+                <div class="toast-body" id="warning-toast-message">
+                    Warning message here
+                </div>
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        `;
+        
+        document.body.appendChild(toastElement);
+        return toastElement;
     }
 } 
