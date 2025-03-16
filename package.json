@@ -1,15 +1,8 @@
 {
-  "name": "supabase-plays-viewer",
+  "name": "serious-theatre",
   "version": "1.0.0",
-  "description": "A simple app to view plays data from Supabase",
-  "main": "server.js",
+  "description": "Sophisticated theatre play tracking application",
   "scripts": {
-    "start": "node server.js"
-  },
-  "keywords": ["supabase", "bootstrap", "data-viewer"],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "express": "^4.21.2"
+    "build": "echo 'No build step needed'"
   }
 }
