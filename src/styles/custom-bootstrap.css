@@ -1269,4 +1269,269 @@ document.addEventListener('scroll', function() {
 /* Add a subtle transition for the toggler when menu is shown */
 .navbar-toggler.always-visible[aria-expanded="true"] .navbar-toggler-icon {
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='rgba%28255, 255, 255, 1%29' d='M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+}
+
+/* Play Review Styles */
+.play-review-image-container {
+    max-height: 600px;
+    overflow: hidden;
+    background-color: #f8f9fa;
+}
+
+.play-review-image-container img {
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.review-content {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #333;
+}
+
+/* Create a magazine-style feel */
+#review-play-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    border-bottom: 2px solid #dee2e6;
+    padding-bottom: 0.5rem;
+}
+
+#review-play-rating {
+    padding: 0.5rem 0;
+}
+
+#review-play-theatre,
+#review-play-date {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+}
+
+#play-review {
+    border: 1px solid #dee2e6;
+    border-radius: 0;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 1.1rem;
+    padding: 1rem;
+    transition: border-color 0.15s ease-in-out;
+}
+
+#play-review:focus {
+    border-color: #7D2935;
+    box-shadow: none;
+}
+
+/* Reviews View Styles */
+.review-card {
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.review-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
+}
+
+.review-counter {
+    font-weight: 500;
+    font-family: 'Playfair Display', Georgia, serif;
+}
+
+.reviews-list {
+    max-height: 400px;
+    overflow-y: auto;
+    border-radius: 8px;
+}
+
+.reviews-list .list-group-item {
+    transition: background-color 0.2s;
+}
+
+.reviews-list .list-group-item:hover {
+    background-color: #f8f9fa;
+}
+
+.reviews-list .list-group-item.active {
+    background-color: #7D2935;
+    border-color: #7D2935;
+}
+
+/* Enhanced Reviews View Styles */
+.review-hero {
+    margin-top: 1rem;
+    transition: all 0.3s ease;
+}
+
+.review-hero:hover .review-hero-image {
+    transform: scale(1.02);
+}
+
+.review-hero-image {
+    transition: transform 0.5s ease;
+}
+
+.review-content-card {
+    border: none;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.review-content {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #333;
+}
+
+.review-content p:first-letter {
+    /* No special styling */
+}
+
+.review-nav-counter .btn {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+@media (max-width: 767px) {
+    .review-hero {
+        margin-top: 0;
+    }
+    
+    .review-hero-image {
+        height: 250px !important;
+    }
+    
+    .review-hero-overlay h2 {
+        font-size: 1.5rem;
+    }
+}
+
+/* Reviews Page - Complete Redesign */
+.review-container {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.review-navigation {
+    margin-bottom: 2rem;
+}
+
+.review-counter {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1rem;
+    color: #666;
+    font-style: italic;
+}
+
+.review-header h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    color: #7D2935;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+}
+
+.review-meta {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    color: #666;
+}
+
+.review-hero {
+    margin-bottom: 2.5rem;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.review-hero img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transition: transform 0.7s ease;
+}
+
+.review-hero:hover img {
+    transform: scale(1.03);
+}
+
+.rating-display-large {
+    transform: scale(1.5);
+    transform-origin: left;
+    margin: 1.5rem 0;
+}
+
+.rating-display-large .rating-icon {
+    font-size: 2rem;
+    margin-right: 0.5rem;
+}
+
+.review-content-wrapper {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.review-content {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #333;
+}
+
+.review-content::first-letter {
+    float: left;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 4.5rem;
+    line-height: 0.8;
+    padding-top: 0.1em;
+    padding-right: 0.15em;
+    color: #7D2935;
+}
+
+.review-footer {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e9ecef;
+}
+
+@media (max-width: 767px) {
+    .review-container {
+        margin: 1rem auto;
+    }
+    
+    .review-header h1 {
+        font-size: 2rem;
+    }
+    
+    .review-content {
+        font-size: 1.1rem;
+    }
+    
+    .review-content::first-letter {
+        font-size: 3.5rem;
+    }
+    
+    .rating-display-large {
+        transform: scale(1.2);
+    }
+}
+
+/* Update disabled button styling */
+.btn-outline-secondary {
+    color: #6c757d;
+    border-color: #6c757d;
+}
+
+.btn-outline-secondary:disabled {
+    color: #adb5bd;
+    border-color: #dee2e6;
 } 
