@@ -1,0 +1,1272 @@
+/* Custom Bootstrap overrides */
+
+/* Primary color based on Supabase branding */
+.btn-primary {
+    background-color: #3ECF8E;
+    border-color: #3ECF8E;
+}
+
+.btn-primary:hover {
+    background-color: #2EAF7D;
+    border-color: #2EAF7D;
+}
+
+.navbar-dark.bg-primary {
+    background-color: #3ECF8E !important;
+}
+
+.text-primary {
+    color: #3ECF8E !important;
+}
+
+/* Table styling */
+.table {
+    font-size: 0.95rem;
+}
+
+/* Improve table display on mobile */
+@media (max-width: 576px) {
+    .table {
+        font-size: 0.85rem;
+    }
+    
+    .table th, .table td {
+        padding: 0.5rem;
+    }
+}
+
+/* Add hover effect for sortable columns */
+th.sortable:hover {
+    background-color: #e9ecef;
+}
+
+/* Card styling */
+.card {
+    border-radius: 8px;
+    border: none;
+}
+
+/* Pagination improvements */
+.pagination {
+    flex-wrap: wrap;
+}
+
+.page-item .page-link {
+    min-width: 36px;
+    text-align: center;
+}
+
+/* Animation for loading state */
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.6; }
+    100% { opacity: 1; }
+}
+
+.loading {
+    animation: pulse 1.5s infinite;
+}
+
+/* Calendar styling */
+.calendar {
+    width: 100%;
+}
+
+.calendar-header {
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.calendar-header-cell {
+    padding: 10px;
+}
+
+.calendar-row {
+    min-height: 100px;
+}
+
+.calendar-cell {
+    border: 1px solid #dee2e6;
+    padding: 5px;
+    position: relative;
+    height: 100%;
+}
+
+.calendar-cell-empty {
+    background-color: #f8f9fa;
+}
+
+.calendar-date {
+    font-weight: bold;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    border-radius: 50%;
+    padding-top: 2px;
+}
+
+.calendar-date.today {
+    background-color: #3ECF8E;
+    color: white;
+}
+
+.calendar-events {
+    padding-top: 30px;
+}
+
+/* Calendar event */
+.calendar-event {
+    background-color: #e9f7f2;
+    border-left: 3px solid #3ECF8E;
+    padding: 5px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    overflow: hidden;
+}
+
+/* Event title */
+.event-title {
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Add past/future event styles */
+.calendar-event.future-event {
+    background-color: #e3f2fd;
+    border-left: 3px solid #1976d2;
+}
+
+.calendar-event.past-event {
+    background-color: #f5f5f5;
+    border-left: 3px solid #9e9e9e;
+}
+
+/* Calendar event title wrapping - more balanced approach */
+.calendar-event .event-title {
+    font-weight: bold;
+    white-space: normal; /* Allow wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-wrap: break-word; /* Break long words if needed */
+    max-width: 100%; /* Ensure title doesn't overflow container */
+    line-height: 1.2; /* Slightly tighter line height */
+}
+
+.event-location, .event-rating {
+    font-size: 0.75rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Responsive fixes */
+@media (max-width: 768px) {
+    .pagination {
+        justify-content: center;
+        margin-top: 1rem;
+    }
+    
+    #pagination-container {
+        flex-direction: column;
+    }
+    
+    #pagination-container > div {
+        margin-bottom: 1rem;
+    }
+    
+    /* Calendar mobile adjustments */
+    .calendar-header-cell {
+        padding: 5px 2px;
+        font-size: 0.8rem;
+    }
+    
+    .calendar-row {
+        min-height: 80px;
+    }
+    
+    .calendar-cell {
+        padding: 2px;
+    }
+    
+    .calendar-date {
+        font-size: 0.8rem;
+        width: 20px;
+        height: 20px;
+    }
+    
+    .calendar-events {
+        padding-top: 25px;
+    }
+    
+    .calendar-event {
+        padding: 3px;
+        margin-bottom: 3px;
+        font-size: 0.7rem;
+    }
+    
+    .event-location, .event-rating {
+        font-size: 0.65rem;
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 576px) {
+    .calendar-cell {
+        height: 80px;
+        padding: 1px;
+    }
+    
+    .calendar-events {
+        max-height: 50px;
+    }
+    
+    .calendar-event .event-title {
+        font-size: 0.7rem;
+        max-height: 2.1em;
+    }
+    
+    .calendar-event {
+        padding: 2px;
+    }
+}
+
+/* Smooth navbar collapse animation */
+.navbar-collapse {
+    transition: height 0.35s ease;
+}
+
+.navbar-collapse.collapsing {
+    overflow: hidden;
+}
+
+.navbar-toggler {
+    transition: all 0.3s ease;
+}
+
+.navbar-toggler:focus {
+    box-shadow: none;
+}
+
+/* Rating display styling */
+.rating-display {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    min-height: 2.5rem;
+    padding-bottom: 0.25rem;
+}
+
+.rating-display .moon-icon,
+.rating-display .standing-ovation-icon {
+    color: #FFD700; /* Gold color */
+}
+
+/* Size variations - increased sizes */
+.rating-display.rating-sm .moon-icon,
+.rating-display.rating-sm .standing-ovation-icon {
+    font-size: 1rem;
+}
+
+.rating-display.rating-lg .moon-icon,
+.rating-display.rating-lg .standing-ovation-icon {
+    font-size: 1.8rem;
+}
+
+/* Default size - increased */
+.rating-display .moon-icon,
+.rating-display .standing-ovation-icon {
+    font-size: 1.4rem;
+}
+
+/* Rating text */
+.rating-text {
+    margin-left: 5px;
+    font-size: 0.9em;
+    color: #6c757d;
+}
+
+/* Standing ovation bouncing animation */
+.standing-ovation-icon {
+    animation: bounce 1s infinite alternate;
+    transform-origin: bottom;
+    display: inline-block;
+    margin-left: 4px;
+    font-size: 2.2rem; /* Much larger icon */
+}
+
+/* Size variations for standing ovation */
+.rating-display.rating-sm .standing-ovation-icon {
+    font-size: 1.5rem; /* Larger than other sm icons */
+}
+
+.rating-display.rating-lg .standing-ovation-icon {
+    font-size: 2.8rem; /* Very large for lg displays */
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-6px); /* Slightly higher bounce */
+    }
+}
+
+/* Responsive adjustments for very small screens */
+@media (max-width: 576px) {
+    .standing-ovation-icon {
+        font-size: 1.8rem; /* A bit smaller on very small screens */
+    }
+    
+    .rating-display.rating-sm .standing-ovation-icon {
+        font-size: 1.3rem;
+    }
+}
+
+/* Calendar-specific rating styles */
+.calendar-event .rating-display {
+    min-height: 1.5rem;
+    padding-bottom: 0.1rem;
+}
+
+.calendar-event .rating-display .moon-icon {
+    font-size: 0.9rem;
+}
+
+.calendar-event .rating-display .standing-ovation-icon {
+    font-size: 1.2rem;
+    margin-left: 2px;
+}
+
+/* Even smaller on mobile */
+@media (max-width: 768px) {
+    .calendar-event .rating-display .moon-icon {
+        font-size: 0.75rem;
+    }
+    
+    .calendar-event .rating-display .standing-ovation-icon {
+        font-size: 1rem;
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 576px) {
+    .calendar-event .rating-display {
+        min-height: 1.2rem;
+    }
+    
+    .calendar-event .rating-display .moon-icon {
+        font-size: 0.7rem;
+    }
+    
+    .calendar-event .rating-display .standing-ovation-icon {
+        font-size: 0.9rem;
+    }
+}
+
+/* Play card styling */
+.play-card {
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.play-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.play-card-image-container {
+    position: relative;
+    padding-top: 66.67%; /* 2:3 aspect ratio */
+    overflow: hidden;
+    background-color: #e9f7f2;
+}
+
+.play-card-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* This prevents stretching */
+    object-position: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+    /* On mobile portrait, make cards full width */
+    .row-cols-1 > .col {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    
+    /* Slightly smaller aspect ratio on mobile */
+    .play-card-image-container {
+        padding-top: 60%; /* Slightly shorter */
+    }
+}
+
+/* Play card actions (edit button) */
+.play-card-image-container {
+    position: relative;
+}
+
+.play-card-actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.play-card:hover .play-card-actions {
+    opacity: 1;
+}
+
+/* Modify the edit button for mobile devices */
+@media (max-width: 767.98px) {
+    .play-card-actions {
+        top: auto;
+        bottom: 10px;
+        right: 10px;
+        opacity: 0; /* Start hidden on mobile too */
+    }
+    
+    /* Show edit buttons on card click/tap on mobile */
+    .play-card.tapped .play-card-actions {
+        opacity: 0.8;
+    }
+}
+
+/* Add these styles to ensure edit buttons are properly displayed */
+.btn-sm.edit-play-btn {
+    margin: 0;
+    white-space: nowrap;
+}
+
+/* Make sure the action column is properly sized */
+.datatable th:last-child,
+.datatable td:last-child {
+    width: 100px;
+    text-align: center;
+}
+
+/* Ensure the date is properly aligned */
+.datatable td:nth-child(2) {
+    white-space: nowrap;
+}
+
+/* Sortable table headers */
+th.sortable {
+    cursor: pointer;
+    position: relative;
+    user-select: none;
+}
+
+th.sortable:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+
+th.sortable::after {
+    content: "⇵";
+    font-size: 0.8em;
+    opacity: 0.5;
+    margin-left: 5px;
+    display: inline-block;
+}
+
+/* Dashboard styles */
+.dashboard-card {
+    transition: transform 0.3s, box-shadow 0.3s;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.dashboard-card .counter-value {
+    font-weight: bold;
+    color: #3ECF8E;
+}
+
+.next-play-countdown {
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+}
+
+/* Animation for counters */
+@keyframes countUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.counter-value {
+    animation: countUp 0.5s ease-out forwards;
+}
+
+/* Card animation */
+.dashboard-card {
+    animation: fadeInUp 0.5s ease-out forwards;
+    opacity: 0;
+}
+
+.dashboard-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.dashboard-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.dashboard-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Rating Input Styles */
+.rating-input-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 10px 0;
+}
+
+.moons-container {
+    display: flex;
+    align-items: center;
+}
+
+.rating-icon {
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: #ccc;
+    margin-right: 8px;
+    transition: color 0.2s, transform 0.2s;
+    padding: 10px 5px; /* Larger tap area for mobile */
+}
+
+.rating-icon.hover {
+    color: #e0c675;
+}
+
+.rating-icon.selected {
+    color: #ffc107;
+}
+
+.rating-icon.half-selected {
+    color: #ffc107;
+}
+
+.rating-icon.waiting-for-double {
+    animation: pulse 0.5s infinite alternate;
+}
+
+@keyframes pulse {
+    from { opacity: 1; }
+    to { opacity: 0.5; }
+}
+
+/* Standing Ovation Animation */
+.standing-ovation-container {
+    display: flex;
+    align-items: center;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+    40% {transform: translateY(-10px);}
+    60% {transform: translateY(-5px);}
+}
+
+.bounce-animation {
+    animation: bounce 1s ease infinite;
+}
+
+/* Mobile improvements */
+@media (max-width: 768px) {
+    .rating-icon {
+        font-size: 2rem;
+        margin-right: 12px;
+        padding: 12px 8px;
+    }
+}
+
+/* Theater App Color Scheme */
+:root {
+  /* Primary palette */
+  --color-burgundy: #7D2935;
+  --color-gold: #D4AF37;
+  --color-charcoal: #333333;
+  
+  /* Secondary palette */
+  --color-midnight: #1A2238;
+  --color-cream: #F8F4E3;
+  --color-teal: #3A7B89;
+  
+  /* Functional colors */
+  --color-success: #34A853;
+  --color-warning: #FBBC05;
+  --color-error: #EA4335;
+  
+  /* Bootstrap overrides */
+  --bs-primary: var(--color-burgundy);
+  --bs-secondary: var(--color-midnight);
+  --bs-success: var(--color-success);
+  --bs-info: var(--color-teal);
+  --bs-warning: var(--color-warning);
+  --bs-danger: var(--color-error);
+  --bs-light: var(--color-cream);
+  --bs-dark: var(--color-charcoal);
+}
+
+/* Background Colors */
+.bg-primary {
+  background-color: var(--color-burgundy) !important;
+}
+
+.bg-secondary {
+  background-color: var(--color-midnight) !important;
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-charcoal);
+}
+
+/* Text Colors */
+.text-primary {
+  color: var(--color-burgundy) !important;
+}
+
+.text-muted {
+  color: #5a6575 !important;
+}
+
+/* Navbar Styling */
+.navbar-dark {
+  background-color: var(--color-burgundy) !important;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link:focus {
+  color: #ffffff;
+}
+
+.navbar-dark .navbar-nav .nav-link.active {
+  color: var(--color-gold);
+  font-weight: 600;
+}
+
+/* Card Styling */
+.card {
+  background-color: #ffffff;
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  border-bottom: none;
+}
+
+.card-header.bg-primary {
+  color: white;
+  background-color: var(--color-burgundy) !important;
+}
+
+/* Dashboard Cards */
+.dashboard-card {
+  transition: transform 0.3s, box-shadow 0.3s;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: white;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+}
+
+.dashboard-card .counter-value {
+  font-weight: bold;
+  color: var(--color-burgundy);
+}
+
+.next-play-countdown {
+  padding: 20px;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: inset 0 0 0 2px rgba(125, 41, 53, 0.1);
+}
+
+.next-play-countdown .display-1 {
+  color: var(--color-burgundy) !important;
+}
+
+/* Button Styling */
+.btn-primary {
+  background-color: var(--color-burgundy);
+  border-color: var(--color-burgundy);
+}
+
+.btn-primary:hover, 
+.btn-primary:focus {
+  background-color: #662129;
+  border-color: #662129;
+}
+
+.btn-outline-primary {
+  color: var(--color-burgundy);
+  border-color: var(--color-burgundy);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--color-burgundy);
+  color: white;
+}
+
+.btn-secondary {
+  background-color: var(--color-midnight);
+  border-color: var(--color-midnight);
+}
+
+.btn-secondary:hover, 
+.btn-secondary:focus {
+  background-color: #131a2d;
+  border-color: #131a2d;
+}
+
+/* Rating Input Styling */
+.rating-icon {
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: #cccccc;
+  margin-right: 8px;
+  transition: color 0.2s, transform 0.2s;
+  padding: 10px 5px;
+}
+
+.rating-icon.hover {
+  color: #e2c25c;
+}
+
+.rating-icon.selected {
+  color: var(--color-gold);
+}
+
+.rating-icon.half-selected {
+  color: var(--color-gold);
+}
+
+/* Table Styling */
+.datatable thead th {
+  background-color: var(--color-midnight);
+  color: white;
+  border: none;
+}
+
+.datatable tbody tr:hover {
+  background-color: rgba(125, 41, 53, 0.05);
+}
+
+.page-item.active .page-link {
+  background-color: var(--color-burgundy);
+  border-color: var(--color-burgundy);
+}
+
+.page-link {
+  color: var(--color-burgundy);
+}
+
+.page-link:hover {
+  color: #662129;
+}
+
+/* Form controls */
+.form-control:focus {
+  border-color: var(--color-burgundy);
+  box-shadow: 0 0 0 0.25rem rgba(125, 41, 53, 0.25);
+}
+
+/* Modal styling */
+.modal-header.bg-primary {
+  background-color: var(--color-burgundy) !important;
+}
+
+/* Badge styling */
+.badge.bg-success {
+  background-color: var(--color-success) !important;
+}
+
+.badge.bg-warning {
+  background-color: var(--color-warning) !important;
+  color: var(--color-charcoal);
+}
+
+.badge.bg-primary {
+  background-color: var(--color-burgundy) !important;
+}
+
+/* Navbar specific override - with high specificity and !important */
+.navbar, 
+nav.navbar, 
+.navbar.navbar-dark,
+.navbar.navbar-expand-lg,
+nav.navbar.navbar-dark.bg-primary,
+.navbar-dark.bg-primary {
+  background-color: var(--color-burgundy) !important;
+}
+
+/* Additional specific override for this particular navbar */
+body > nav.navbar {
+  background-color: var(--color-burgundy) !important;
+}
+
+/* Also ensure all navbar dark classes are properly themed */
+.navbar-dark .navbar-brand {
+  color: white;
+}
+
+/* Make active tab stand out with gold */
+.navbar-dark .nav-item .nav-link.active {
+  color: var(--color-gold) !important;
+  font-weight: 600;
+}
+
+/* Override any bootstrap bg-primary classes that might be used */
+.bg-primary {
+  background-color: var(--color-burgundy) !important;
+}
+
+/* Direct "No Image" text override - highest priority */
+.no-image,
+div[class*="no-image"],
+[style*="background-color: rgb(240, 248, 244)"],
+[style*="background-color:#f0f8f4"],
+[style*="background: rgb(240, 248, 244)"],
+div:not([class]):has(> span:contains("No Image")),
+.card-img-top-placeholder,
+div[style*="background-color"]:has(> span:contains("No Image")) {
+  background-color: rgba(125, 41, 53, 0.1) !important;
+  color: var(--color-burgundy) !important;
+  border: 1px dashed var(--color-burgundy) !important;
+}
+
+/* Target the specific implementation from the screenshot */
+.play-card .card-img-top,
+.play-card img,
+.play-card > div > div:first-child {
+  max-height: 250px;
+  overflow: hidden;
+}
+
+/* Target the specific green No Image text */
+.play-card div[style*="background-color"] {
+  background-color: rgba(125, 41, 53, 0.1) !important;
+}
+
+/* Override any "No Image" text */
+*:contains("No Image") {
+  color: var(--color-burgundy) !important;
+}
+
+/* Additional target for No Image placeholder */
+.play-card-image-placeholder,
+[class*="play-card"] [class*="placeholder"],
+[class*="play-card"] div[style*="background-color: rgb(240, 248, 244)"] {
+  background-color: rgba(125, 41, 53, 0.1) !important;
+}
+
+/* Last resort: override all background colors matching the green shade */
+*[style*="background-color: rgb(240, 248, 244)"],
+*[style*="background-color: #f0f8f4"],
+*[style*="background-color: rgb(173, 216, 173)"] {
+  background-color: rgba(125, 41, 53, 0.1) !important;
+}
+
+/* Sophisticated SeriousTheatre Logo Styling */
+.serious-theatre-logo {
+  display: flex;
+  align-items: center;
+  padding: 0.25rem 0;
+  transition: all 0.3s ease;
+}
+
+.logo-mask {
+  font-size: 1.8rem;
+  color: var(--color-gold);
+  margin-right: 0.5rem;
+  filter: drop-shadow(0 0 2px rgba(0,0,0,0.3));
+  transition: transform 0.3s ease;
+}
+
+.serious-theatre-logo:hover .logo-mask {
+  transform: rotate(-5deg);
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.logo-serious {
+  font-family: 'Georgia', serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: white;
+  margin-bottom: -0.1rem;
+}
+
+.logo-theatre {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 1.1rem;
+  font-weight: 300;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+
+/* Add a subtle gold underline on hover */
+.serious-theatre-logo:hover .logo-theatre {
+  text-decoration: underline;
+  text-decoration-color: var(--color-gold);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 576px) {
+  .logo-serious {
+    font-size: 1.2rem;
+  }
+  
+  .logo-theatre {
+    font-size: 0.9rem;
+  }
+  
+  .logo-mask {
+    font-size: 1.6rem;
+  }
+}
+
+/* Add a subtle brand animation on page load */
+@keyframes logoReveal {
+  0% { opacity: 0; transform: translateY(-10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.serious-theatre-logo {
+  animation: logoReveal 0.8s ease-out forwards;
+}
+
+/* Enhanced navigation styling for a premium experience */
+.navbar-nav .nav-item {
+  position: relative;
+  margin: 0 0.15rem;
+}
+
+.navbar-nav .nav-link {
+  padding: 0.75rem 1rem;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow: hidden;
+}
+
+/* Icon styling */
+.nav-icon {
+  margin-right: 0.5rem;
+  font-size: 1.1rem;
+  transform: translateY(-1px);
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+/* Elegant hover effect */
+.navbar-nav .nav-link:hover .nav-icon,
+.navbar-nav .nav-link.active .nav-icon {
+  transform: translateY(-3px);
+}
+
+/* Sophisticated underline animation */
+.navbar-nav .nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-gold);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s cubic-bezier(0.86, 0, 0.07, 1);
+}
+
+.navbar-nav .nav-link:hover::after {
+  transform: scaleX(0.8);
+  transform-origin: left;
+}
+
+.navbar-nav .nav-link.active::after {
+  transform: scaleX(1);
+  transform-origin: left;
+  background-color: var(--color-gold);
+}
+
+/* Special styling for add play button */
+.add-play-link {
+  margin-left: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.add-play-link:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Subtle hover backdrop glow */
+.navbar-nav .nav-item:hover .nav-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: -1;
+}
+
+.navbar-nav .nav-item:hover .nav-link::before {
+  opacity: 1;
+}
+
+/* Active link has stronger gold color */
+.navbar-nav .nav-link.active {
+  color: var(--color-gold) !important;
+  font-weight: 500;
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+}
+
+/* Sophisticated dropdown styling */
+.navbar-nav .dropdown-menu {
+  border: none;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  overflow: hidden;
+}
+
+.navbar-nav .dropdown.show .dropdown-menu {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Page transitions */
+.container > div {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.container > div.d-none {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+/* Subtle text selection styling */
+::selection {
+  background-color: rgba(125, 41, 53, 0.2);
+  color: var(--color-burgundy);
+}
+
+/* Elegant focus states */
+a:focus, button:focus, input:focus, select:focus, textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.4) !important;
+}
+
+/* Additional refinements for navbar on scroll */
+.navbar.scrolled {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+/* Add scroll behavior for navbar */
+document.addEventListener('scroll', function() {
+  const navbar = document.querySelector('.navbar');
+  if (window.scrollY > 20) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
+});
+
+/* Menu expanding animation */
+.navbar-collapse.expanding-smoothly {
+  transform-origin: top;
+  animation: expandMenu 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Menu collapsing animation */
+.navbar-collapse.collapsing-smoothly {
+  animation: collapseMenu 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes expandMenu {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px) scaleY(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+}
+
+@keyframes collapseMenu {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-20px) scaleY(0.8);
+  }
+}
+
+/* Mobile menu backdrop effect */
+@media (max-width: 991.98px) {
+  .navbar-collapse {
+    background-color: var(--color-burgundy);
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    padding: 0.5rem;
+  }
+  
+  .navbar-collapse .navbar-nav {
+    position: relative;
+    z-index: 2;
+  }
+  
+  .navbar-collapse::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, 
+                               rgba(125, 41, 53, 0.95) 0%, 
+                               rgba(26, 34, 56, 0.95) 100%);
+    backdrop-filter: blur(5px);
+    z-index: 1;
+  }
+  
+  /* Enhanced mobile nav items */
+  .navbar-nav .nav-item {
+    margin: 0.25rem 0;
+    opacity: 0;
+    transform: translateX(-20px);
+    animation: slideInNavItems 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  
+  /* Staggered animation for menu items */
+  .navbar-nav .nav-item:nth-child(1) { animation-delay: 0.1s; }
+  .navbar-nav .nav-item:nth-child(2) { animation-delay: 0.15s; }
+  .navbar-nav .nav-item:nth-child(3) { animation-delay: 0.2s; }
+  .navbar-nav .nav-item:nth-child(4) { animation-delay: 0.25s; }
+  .navbar-nav .nav-item:nth-child(5) { animation-delay: 0.3s; }
+  .navbar-nav .nav-item:nth-child(6) { animation-delay: 0.35s; }
+  .navbar-nav .nav-item:nth-child(7) { animation-delay: 0.4s; }
+  
+  @keyframes slideInNavItems {
+    from {
+      opacity: 0;
+      transform: translateX(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+  
+  /* Enhance mobile menu toggle button */
+  .navbar-toggler {
+    border: none;
+    padding: 0.5rem;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .navbar-toggler:focus {
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.4) !important;
+  }
+  
+  .navbar-toggler:active {
+    transform: scale(0.95);
+  }
+}
+
+/* Always visible navbar toggler */
+.navbar-toggler.always-visible {
+  display: block !important;
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  z-index: 1050;
+}
+
+/* Ensure menu doesn't overlap the toggler */
+.navbar-collapse.show {
+  padding-top: 3.5rem;
+}
+
+/* Make navbar collapse have higher z-index than content but lower than toggler */
+.navbar-collapse {
+  z-index: 1040;
+}
+
+/* Add a subtle transition for the toggler when menu is shown */
+.navbar-toggler.always-visible[aria-expanded="true"] .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='rgba%28255, 255, 255, 1%29' d='M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+} 
