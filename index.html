@@ -53,6 +53,11 @@
                             <i class="bi bi-calendar-x nav-icon"></i> Past Plays
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="hall-of-fame-shame-link">
+                            <i class="bi bi-trophy nav-icon"></i> Hall of Fame
+                        </a>
+                    </li>
                     <li class="nav-item d-none" id="unrated-plays-menu-item">
                         <a class="nav-link" href="#" id="unrated-plays-link">
                             <i class="bi bi-star nav-icon"></i> Unrated Plays
@@ -248,6 +253,16 @@
                 <p class="mt-2">Loading reviews...</p>
             </div>
         </div>
+
+        <!-- Hall of Fame/Shame View -->
+        <div id="hall-of-fame-shame-view" class="view d-none">
+            <div class="text-center py-5">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2">Loading Hall of Fame/Shame...</p>
+            </div>
+        </div>
     </div>
 
     <!-- Bootstrap Bundle with Popper -->
@@ -272,6 +287,7 @@
     <script src="src/components/AddPlayForm.js"></script>
     <script src="src/components/PlayReviewForm.js"></script>
     <script src="src/components/ReviewsView.js"></script>
+    <script src="src/components/HallOfFameShameView.js"></script>
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {

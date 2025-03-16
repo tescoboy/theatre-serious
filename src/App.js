@@ -15,6 +15,7 @@ class App {
         this.addPlayForm = new AddPlayForm();
         this.playReviewForm = new PlayReviewForm();
         this.reviewsView = new ReviewsView();
+        this.hallOfFameShameView = new HallOfFameShameView();
         
         // Listen for view changes
         document.addEventListener('viewChanged', (e) => this.handleViewChanged(e.detail.view));
@@ -79,6 +80,7 @@ class App {
         document.getElementById('past-plays-view').classList.add('d-none');
         document.getElementById('unrated-plays-view').classList.add('d-none');
         document.getElementById('reviews-view').classList.add('d-none');
+        document.getElementById('hall-of-fame-shame-view').classList.add('d-none');
         
         // Show the selected view
         const viewEl = document.getElementById(elementId);
@@ -110,6 +112,9 @@ class App {
         } else if (view === 'reviews') {
             this.reviewsView.initialize();
             this.reviewsView.setPlaysData(this.allPlaysData);
+        } else if (view === 'hall-of-fame-shame') {
+            this.hallOfFameShameView.initialize();
+            this.hallOfFameShameView.setPlaysData(this.allPlaysData);
         }
     }
     

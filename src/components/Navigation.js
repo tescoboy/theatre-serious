@@ -223,4 +223,14 @@ class Navigation {
         });
         document.dispatchEvent(event);
     }
+
+    /**
+     * Show Hall of Fame/Shame view
+     */
+    showHallOfFameShameView() {
+        console.log('Showing Hall of Fame/Shame view');
+        document.dispatchEvent(new CustomEvent('viewChanged', { 
+            detail: { view: 'hall-of-fame-shame' }
+        }));
+    }
 } 

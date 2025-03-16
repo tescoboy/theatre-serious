@@ -23,7 +23,8 @@ const SupabaseService = (function() {
                 const { data, error } = await supabaseClient
                     .from('plays')
                     .select('*')
-                    .limit(limit);
+                    .limit(limit)
+                    .order('date', { ascending: false });
                 
                 if (error) {
                     console.error('Supabase error:', error);
@@ -31,6 +32,15 @@ const SupabaseService = (function() {
                 }
                 
                 console.log(`Successfully fetched ${data ? data.length : 0} plays`);
+                
+                // Debug the standing ovation data
+                const standingOvationPlays = data.filter(p => p.standing_ovation);
+                console.log('Plays with standing ovation from DB:', standingOvationPlays.map(p => ({
+                    id: p.id,
+                    name: p.name,
+                    standing_ovation: p.standing_ovation
+                })));
+                
                 return data || [];
             } catch (error) {
                 console.error('Error in fetchPlays:', error);
