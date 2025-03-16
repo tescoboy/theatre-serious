@@ -24,8 +24,24 @@ class PlayCard {
         const rating = this.play.rating || '';
         const playId = this.play.id;
         
-        // Format date for display
-        const formattedDate = date ? FormatUtils.formatDate(date) : 'Date not specified';
+        // Format date directly using UK format instead of relying on FormatUtils
+        let formattedDate = 'Date not specified';
+        if (date) {
+            try {
+                const dateObj = new Date(date);
+                if (!isNaN(dateObj)) {
+                    const day = dateObj.getDate().toString().padStart(2, '0');
+                    const month = (dateObj.getMonth() + 1).toString().padStart(2, '0');
+                    const year = dateObj.getFullYear();
+                    formattedDate = `${day}/${month}/${year}`;
+                } else {
+                    formattedDate = 'Invalid date';
+                }
+            } catch (e) {
+                console.error('Error formatting date:', e);
+                formattedDate = 'Date error';
+            }
+        }
         
         return `
             <div class="play-card card h-100 shadow-sm">
