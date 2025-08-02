@@ -338,7 +338,7 @@ class ReviewsView {
             editButton.addEventListener('click', () => {
                 const playId = parseInt(editButton.getAttribute('data-play-id'));
                 document.dispatchEvent(new CustomEvent('showPlayReview', { 
-                    detail: { playId: playId }
+                    detail: { playId: playId, editMode: true }
                 }));
             });
         }

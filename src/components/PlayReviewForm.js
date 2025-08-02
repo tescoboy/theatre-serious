@@ -127,7 +127,8 @@ class PlayReviewForm {
         document.addEventListener('showPlayReview', (e) => {
             console.log('showPlayReview event received', e.detail);
             const playId = e.detail.playId;
-            this.showReview(playId);
+            const editMode = e.detail.editMode || false;
+            this.showReview(playId, editMode);
         });
         
         // Reset form on modal close
@@ -140,14 +141,15 @@ class PlayReviewForm {
     /**
      * Show the review for a play
      * @param {number} playId - The ID of the play to show the review for
+     * @param {boolean} editMode - Whether to open in edit mode
      */
-    async showReview(playId) {
+    async showReview(playId, editMode = false) {
         try {
             if (!this.initialized) {
                 this.initialize();
             }
             
-            console.log(`Showing review for play ID: ${playId}`);
+            console.log(`Showing review for play ID: ${playId}, editMode: ${editMode}`);
             
             // Get play data
             const play = await SupabaseService.getPlayById(playId);
@@ -161,8 +163,8 @@ class PlayReviewForm {
             // Update UI with play information
             this.updatePlayInfo(play);
             
-            // Exit edit mode
-            this.editMode = false;
+            // Set edit mode based on parameter
+            this.editMode = editMode;
             this.updateEditMode();
             
             // Show the modal
