@@ -408,10 +408,17 @@ class AddPlayForm {
             // Handle rating value - support both numbers and "Standing Ovation"
             let parsedRating = null;
             if (rating !== null && rating !== '' && rating !== undefined) {
+                console.log('Rating value before parsing:', rating);
+                console.log('Rating === "standing":', rating === 'standing');
+                console.log('Rating === "standing" (length check):', rating.length === 7);
+                console.log('Rating first 7 chars:', rating.substring(0, 7));
+                
                 if (rating === 'standing') {
                     parsedRating = 'Standing Ovation'; // Convert to the expected database format
+                    console.log('Converting standing to Standing Ovation');
                 } else {
                     parsedRating = parseFloat(rating); // Use parseFloat to preserve decimals
+                    console.log('Parsing as float:', rating, '->', parsedRating);
                 }
                 console.log('Parsed rating:', parsedRating, 'type:', typeof parsedRating);
             }
