@@ -233,10 +233,9 @@ class Router {
         // Show the reviews view
         this.showView('reviews');
         
-        // Wait a bit for the view to be ready
-        setTimeout(() => {
-            // Find the ReviewsView instance and set it to show the specific review
-            if (window.reviewsView) {
+        // Wait for data to be loaded
+        const waitForData = () => {
+            if (window.reviewsView && window.reviewsView.playsData && window.reviewsView.playsData.length > 0) {
                 console.log('ReviewsView found, playsData:', window.reviewsView.playsData);
                 
                 // Find the index of the review with this play name
@@ -271,9 +270,13 @@ class Router {
                     }
                 }
             } else {
-                console.error('ReviewsView not found');
+                console.log('Waiting for data to load...');
+                setTimeout(waitForData, 100);
             }
-        }, 100);
+        };
+        
+        // Start waiting for data
+        waitForData();
     }
     
     /**
