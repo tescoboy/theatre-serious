@@ -55,20 +55,33 @@ class Navigation {
                 const view = link.id.replace('-link', '');
                 console.log(`Navigation link clicked: ${link.id}, switching to view: ${view}`);
                 
-                // Set this link as active
-                this.navLinks.forEach(l => l.classList.remove('active'));
-                link.classList.add('active');
-                
                 // Close the navbar collapse on mobile
                 if (this.navbarToggler && this.navbarCollapse && window.getComputedStyle(this.navbarToggler).display !== 'none') {
                     const bsCollapse = new bootstrap.Collapse(this.navbarCollapse);
                     bsCollapse.hide();
                 }
                 
-                // Dispatch custom event to change the view
-                document.dispatchEvent(new CustomEvent('viewChanged', {
-                    detail: { view: view }
-                }));
+                // Use router to navigate
+                if (window.router) {
+                    const routeMap = {
+                        'dashboard': '/',
+                        'table-view': '/plays',
+                        'calendar-view': '/calendar',
+                        'upcoming-plays': '/upcoming',
+                        'past-plays': '/past',
+                        'unrated-plays': '/unrated',
+                        'reviews': '/reviews',
+                        'hall-of-fame-shame': '/hall-of-fame'
+                    };
+                    
+                    const route = routeMap[view] || '/';
+                    window.router.navigate(route);
+                } else {
+                    // Fallback to old method
+                    document.dispatchEvent(new CustomEvent('viewChanged', {
+                        detail: { view: view }
+                    }));
+                }
             });
         });
         

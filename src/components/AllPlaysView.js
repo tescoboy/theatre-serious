@@ -443,10 +443,12 @@ class AllPlaysView {
                 </td>
                 <td class="text-end" style="padding: 1rem 0.75rem; vertical-align: middle;">
                     <div class="btn-group btn-group-sm">
-                        <button class="btn btn-outline-primary edit-play-btn" data-play-id="${play.id}" title="Edit Play" style="border-color: #7D2935; color: #7D2935; padding: 0.375rem 0.75rem;">
+                                                <button class="btn btn-outline-primary edit-play-btn" data-play-id="${play.id}" title="Edit Play" style="border-color: #7D2935; color: #7D2935; padding: 0.375rem 0.75rem;">
                             <i class="bi bi-pencil"></i>
                         </button>
-
+                        <button class="btn btn-outline-info view-play-btn" data-play-id="${play.id}" title="View Details" style="border-color: #3A7B89; color: #3A7B89; padding: 0.375rem 0.75rem;">
+                            <i class="bi bi-eye"></i>
+                        </button>
                         <button class="btn btn-outline-danger delete-play-btn" data-play-id="${play.id}" title="Delete Play" style="border-color: #EA4335; color: #EA4335; padding: 0.375rem 0.75rem;">
                             <i class="bi bi-trash"></i>
                         </button>
@@ -460,7 +462,7 @@ class AllPlaysView {
      * Bind events to table rows
      */
     bindRowEvents() {
-        // Edit buttons
+                // Edit buttons
         document.querySelectorAll('.edit-play-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -469,7 +471,16 @@ class AllPlaysView {
             });
         });
         
-
+        // View buttons
+        document.querySelectorAll('.view-play-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const playId = parseInt(btn.getAttribute('data-play-id'));
+                if (window.router) {
+                    window.router.navigate(`/play/${playId}`);
+                }
+            });
+        });
         
         // Delete buttons
         document.querySelectorAll('.delete-play-btn').forEach(btn => {
