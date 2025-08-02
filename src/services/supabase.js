@@ -135,6 +135,9 @@ const SupabaseService = (function() {
                 console.log('supabase.js: Play updated successfully:', data);
                 console.log('supabase.js: Review field present in response?', data.hasOwnProperty('review'));
                 console.log('supabase.js: Review value:', data.review);
+                console.log('supabase.js: Rating field present in response?', data.hasOwnProperty('rating'));
+                console.log('supabase.js: Rating value:', data.rating);
+                console.log('supabase.js: Rating type:', typeof data.rating);
                 
                 return data;
             } catch (error) {
