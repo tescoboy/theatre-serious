@@ -446,9 +446,7 @@ class AllPlaysView {
                         <button class="btn btn-outline-primary edit-play-btn" data-play-id="${play.id}" title="Edit Play" style="border-color: #7D2935; color: #7D2935; padding: 0.375rem 0.75rem;">
                             <i class="bi bi-pencil"></i>
                         </button>
-                        <button class="btn btn-outline-info view-play-btn" data-play-id="${play.id}" title="View Details" style="border-color: #3A7B89; color: #3A7B89; padding: 0.375rem 0.75rem;">
-                            <i class="bi bi-eye"></i>
-                        </button>
+
                         <button class="btn btn-outline-danger delete-play-btn" data-play-id="${play.id}" title="Delete Play" style="border-color: #EA4335; color: #EA4335; padding: 0.375rem 0.75rem;">
                             <i class="bi bi-trash"></i>
                         </button>
@@ -471,14 +469,7 @@ class AllPlaysView {
             });
         });
         
-        // View buttons
-        document.querySelectorAll('.view-play-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const playId = parseInt(btn.getAttribute('data-play-id'));
-                document.dispatchEvent(new CustomEvent('viewPlay', { detail: { playId } }));
-            });
-        });
+
         
         // Delete buttons
         document.querySelectorAll('.delete-play-btn').forEach(btn => {
