@@ -30,10 +30,14 @@ class RatingInput {
      * Initialize the rating input
      */
     init() {
+        console.log('RatingInput: init() called, containerId:', this.containerId);
+        
         if (!this.container) {
             console.error(`Container with ID ${this.containerId} not found`);
             return;
         }
+        
+        console.log('RatingInput: Container found, creating HTML structure');
         
         // Create the rating container
         this.container.innerHTML = `
@@ -67,9 +71,15 @@ class RatingInput {
      * Add event listeners to the rating elements
      */
     addEventListeners() {
+        console.log('RatingInput: addEventListeners() called');
+        
         const moonIcons = this.container.querySelectorAll('.moons-container .rating-icon');
         const standingIcon = this.container.querySelector('.standing-ovation-container .rating-icon');
         const clearButton = this.container.querySelector('.clear-rating');
+        
+        console.log('RatingInput: Found moon icons:', moonIcons.length);
+        console.log('RatingInput: Found standing icon:', !!standingIcon);
+        console.log('RatingInput: Found clear button:', !!clearButton);
         
         // Moon click events
         moonIcons.forEach((icon, index) => {
