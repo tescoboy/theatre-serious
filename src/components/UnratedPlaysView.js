@@ -35,11 +35,16 @@ class UnratedPlaysView {
         
         this.plays = allPlays.filter(play => {
             // Check if it has no rating or rating is empty
-            const hasNoRating = !play.rating || play.rating === '';
+            // A play is considered unrated if rating is null, undefined, empty string, or 0
+            const hasNoRating = !play.rating || play.rating === '' || play.rating === 0;
             
             // Debug: Log plays that might be incorrectly categorized
             if (play.rating === 'Standing Ovation') {
                 console.log('UnratedPlaysView: Found play with Standing Ovation rating:', play.name, 'rating:', play.rating);
+                console.log('UnratedPlaysView: hasNoRating for Standing Ovation play:', hasNoRating);
+                console.log('UnratedPlaysView: !play.rating:', !play.rating);
+                console.log('UnratedPlaysView: play.rating === "":', play.rating === '');
+                console.log('UnratedPlaysView: play.rating === 0:', play.rating === 0);
             }
             
             // Find the date field
