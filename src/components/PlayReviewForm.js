@@ -313,18 +313,9 @@ class PlayReviewForm {
             
             console.log('Navigating to review after save:', reviewUrl);
             
-            // First, directly navigate to the review
-            if (window.app && window.app.reviewsView) {
-                const found = window.app.reviewsView.showReviewBySlug(slug, year.toString());
-                if (found) {
-                    // Switch to reviews view first
-                    window.app.handleViewChanged('reviews');
-                    // Then update the URL
-                    setTimeout(() => {
-                        window.location.hash = reviewUrl;
-                    }, 100);
-                }
-            }
+            // Simply reload the page with the correct URL
+            window.location.hash = reviewUrl;
+            window.location.reload();
         } catch (error) {
             console.error('Error saving review:', error);
             alert(`Error saving review: ${error.message}`);
