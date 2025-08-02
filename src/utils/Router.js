@@ -165,58 +165,23 @@ class Router {
     async showReviewDetails(playId) {
         console.log('Router: Showing review details for ID:', playId);
         
-        // Hide all main app views
-        this.hideAllViews();
+        // Show the reviews view
+        this.showView('reviews');
         
-        // Create review details container if it doesn't exist
-        let reviewDetailsContainer = document.getElementById('review-details-container');
-        if (!reviewDetailsContainer) {
-            reviewDetailsContainer = document.createElement('div');
-            reviewDetailsContainer.id = 'review-details-container';
-            reviewDetailsContainer.className = 'container mt-4';
-            document.body.appendChild(reviewDetailsContainer);
-        }
-        
-        // Show loading state
-        reviewDetailsContainer.innerHTML = `
-            <div class="text-center">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Loading...</span>
-                </div>
-                <p class="mt-2">Loading review...</p>
-            </div>
-        `;
-        reviewDetailsContainer.style.display = 'block';
-        
-        try {
-            // Fetch play data from Supabase
-            const play = await SupabaseService.getPlayById(playId);
+        // Find the ReviewsView instance and set it to show the specific review
+        if (window.reviewsView) {
+            // Find the index of the review with this playId
+            const playsWithReviews = window.reviewsView.playsData.filter(play => play.review && play.review.trim() !== '');
+            const reviewIndex = playsWithReviews.findIndex(play => play.id === playId);
             
-            if (!play) {
-                reviewDetailsContainer.innerHTML = `
-                    <div class="alert alert-warning" role="alert">
-                        <h4 class="alert-heading">Review Not Found</h4>
-                        <p>The review you're looking for doesn't exist or has been removed.</p>
-                        <hr>
-                        <a href="/" class="btn btn-primary">Back to All Plays</a>
-                    </div>
-                `;
-                return;
+            if (reviewIndex !== -1) {
+                window.reviewsView.currentReviewIndex = reviewIndex;
+                window.reviewsView.render();
+            } else {
+                console.error('Review not found for play ID:', playId);
             }
-            
-            // Render review details
-            this.renderReviewDetails(play, reviewDetailsContainer);
-            
-        } catch (error) {
-            console.error('Error loading review details:', error);
-            reviewDetailsContainer.innerHTML = `
-                <div class="alert alert-danger" role="alert">
-                    <h4 class="alert-heading">Error Loading Review</h4>
-                    <p>There was an error loading the review. Please try again.</p>
-                    <hr>
-                    <a href="/" class="btn btn-primary">Back to All Plays</a>
-                </div>
-            `;
+        } else {
+            console.error('ReviewsView not found');
         }
     }
     
