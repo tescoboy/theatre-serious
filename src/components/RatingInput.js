@@ -160,13 +160,18 @@ class RatingInput {
      * Handle selection of standing ovation
      */
     handleStandingOvationSelection() {
+        console.log('RatingInput: Standing ovation clicked, current state:', this.isStandingOvation);
+        
         // Toggle standing ovation
         this.isStandingOvation = !this.isStandingOvation;
+        
+        console.log('RatingInput: Standing ovation toggled to:', this.isStandingOvation);
         
         if (this.isStandingOvation) {
             // Reset moon rating
             this.currentRating = 0;
             this.isHalfStar = false;
+            console.log('RatingInput: Reset moon rating, current rating:', this.currentRating);
         }
         
         this.updateDisplay();
@@ -294,8 +299,13 @@ class RatingInput {
      * Trigger the change callback
      */
     triggerChange() {
+        const value = this.getValue();
+        console.log('RatingInput: triggerChange called with value:', value, 'type:', typeof value);
+        console.log('RatingInput: onChange function exists:', typeof this.onChange === 'function');
+        
         if (typeof this.onChange === 'function') {
-            this.onChange(this.getValue());
+            console.log('RatingInput: Calling onChange with value:', value);
+            this.onChange(value);
         }
     }
 } 
