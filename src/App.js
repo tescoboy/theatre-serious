@@ -66,6 +66,7 @@ class App {
             'upcoming': 'upcoming-plays-view',
             'unrated': 'unrated-plays-view',
             'table': 'table-view',
+            'table-view': 'table-view',
             'calendar': 'calendar-view'
         };
         
