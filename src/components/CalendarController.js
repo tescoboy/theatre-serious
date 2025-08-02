@@ -3,7 +3,6 @@
  */
 class CalendarController {
     constructor() {
-        this.calendar = new CalendarView('calendar-grid');
         this.currentMonthButton = document.getElementById('current-month');
         this.prevMonthButton = document.getElementById('prev-month');
         this.nextMonthButton = document.getElementById('next-month');
@@ -12,6 +11,7 @@ class CalendarController {
         
         this.playsData = [];
         this.initialized = false;
+        this.calendar = null; // Will be created when needed
         
         console.log('CalendarController initialized');
     }
@@ -21,6 +21,9 @@ class CalendarController {
      */
     initialize() {
         if (this.initialized) return;
+        
+        // Create the calendar view now that the DOM element should exist
+        this.calendar = new CalendarView('calendar-grid');
         
         this.calendar.initCalendar();
         this.updateMonthDisplay();
@@ -47,7 +50,7 @@ class CalendarController {
      */
     setPlaysData(data) {
         this.playsData = data;
-        if (this.initialized) {
+        if (this.initialized && this.calendar) {
             this.calendar.populateCalendar(data);
         }
     }
@@ -56,6 +59,8 @@ class CalendarController {
      * Update the month display
      */
     updateMonthDisplay() {
-        this.currentMonthButton.textContent = `${this.months[this.calendar.currentMonth]} ${this.calendar.currentYear}`;
+        if (this.calendar) {
+            this.currentMonthButton.textContent = `${this.months[this.calendar.currentMonth]} ${this.calendar.currentYear}`;
+        }
     }
 } 

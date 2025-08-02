@@ -49,8 +49,8 @@ class App {
             // Fetch data
             await this.fetchPlaysData();
             
-            // Let the Router handle the initial route
-            // The Router will automatically detect the current URL and show the appropriate view
+            // Show dashboard by default
+            this.handleViewChanged('dashboard');
             
             console.log('App initialized successfully');
         } catch (error) {
@@ -67,12 +67,12 @@ class App {
         
         // Create a mapping for special view cases
         const viewIdMap = {
-            'past': 'past-plays-view',
-            'upcoming': 'upcoming-plays-view',
-            'unrated': 'unrated-plays-view',
-            'table': 'table-view',
+            'past-plays': 'past-plays-view',
+            'upcoming-plays': 'upcoming-plays-view',
+            'unrated-plays': 'unrated-plays-view',
             'table-view': 'table-view',
-            'calendar': 'calendar-view'
+            'calendar-view': 'calendar-view',
+            'hall-of-fame-shame': 'hall-of-fame-shame-view'
         };
         
         // Get the correct element ID using the mapping or default format
@@ -101,19 +101,19 @@ class App {
         if (view === 'dashboard') {
             this.dashboard.setPlaysData(this.allPlaysData);
             this.dashboard.attachEventListeners();
-        } else if (view === 'table') {
+        } else if (view === 'table-view') {
             // AllPlaysView already initialized
             this.allPlaysView.setPlaysData(this.allPlaysData);
-        } else if (view === 'calendar') {
+        } else if (view === 'calendar-view') {
             this.calendarController.initialize();
             this.calendarController.setPlaysData(this.allPlaysData);
-        } else if (view === 'upcoming') {
+        } else if (view === 'upcoming-plays') {
             this.upcomingPlaysView.initialize();
             this.upcomingPlaysView.setPlaysData(this.allPlaysData);
-        } else if (view === 'past') {
+        } else if (view === 'past-plays') {
             this.pastPlaysView.initialize();
             this.pastPlaysView.setPlaysData(this.allPlaysData);
-        } else if (view === 'unrated') {
+        } else if (view === 'unrated-plays') {
             this.unratedPlaysView.initialize();
             this.unratedPlaysView.setPlaysData(this.allPlaysData);
         } else if (view === 'reviews') {

@@ -7,7 +7,13 @@ class CalendarView {
      * @param {string} containerId - ID of the container element
      */
     constructor(containerId) {
+        this.containerId = containerId;
         this.container = document.getElementById(containerId);
+        
+        if (!this.container) {
+            console.error(`Calendar container not found: ${containerId}`);
+            return;
+        }
         
         // Set initial date to current month
         const now = new Date();
@@ -21,6 +27,10 @@ class CalendarView {
      * Initialize the calendar grid
      */
     initCalendar() {
+        if (!this.container) {
+            console.error('Calendar container not available for initialization');
+            return;
+        }
         this.generateCalendarGrid();
     }
     
@@ -54,6 +64,11 @@ class CalendarView {
      * Generate the calendar grid for the current month/year
      */
     generateCalendarGrid() {
+        if (!this.container) {
+            console.error('Calendar container not available for grid generation');
+            return;
+        }
+        
         // Get the first day of the month
         const firstDay = new Date(this.currentYear, this.currentMonth, 1);
         // Get the last day of the month
