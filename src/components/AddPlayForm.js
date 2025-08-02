@@ -35,6 +35,7 @@ class AddPlayForm {
         this.setupEventListeners();
         
         // Create rating input after the form is rendered
+        console.log('AddPlayForm: Creating RatingInput with options object');
         this.ratingInput = new RatingInput({
             containerId: 'play-rating-container',
             onChange: (value) => {
@@ -44,6 +45,7 @@ class AddPlayForm {
                 console.log('Hidden input value after setting:', document.getElementById('play-rating').value);
             }
         });
+        console.log('AddPlayForm: RatingInput created successfully:', this.ratingInput);
         
         this.initialized = true;
     }
