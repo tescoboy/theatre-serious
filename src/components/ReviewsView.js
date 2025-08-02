@@ -55,9 +55,11 @@ class ReviewsView {
     getSortedReviews() {
         // Check if cache is still valid
         if (this.sortedReviewsCache && this.lastPlaysDataLength === this.playsData.length) {
+            console.log('Using cached sorted reviews');
             return this.sortedReviewsCache;
         }
         
+        console.log('Regenerating sorted reviews cache');
         // Filter and sort
         const playsWithReviews = this.playsData.filter(play => play.review && play.review.trim() !== '');
         this.sortPlaysWithReviews(playsWithReviews);
@@ -87,6 +89,9 @@ class ReviewsView {
     setPlaysData(playsData) {
         console.log(`Setting plays data in ReviewsView: ${playsData.length} plays`);
         this.playsData = playsData;
+        // Invalidate cache when data changes
+        this.sortedReviewsCache = null; 
+        this.lastPlaysDataLength = 0;
         this.render();
     }
     

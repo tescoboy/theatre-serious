@@ -280,6 +280,9 @@ class PlayReviewForm {
             };
             
             console.log('Sending updatedPlay to DB:', updatedPlay);
+            console.log('Review field in updatedPlay:', updatedPlay.review);
+            console.log('Review field type:', typeof updatedPlay.review);
+            console.log('Review field length:', updatedPlay.review ? updatedPlay.review.length : 0);
             
             // Save to database
             const result = await SupabaseService.updatePlay(updatedPlay);

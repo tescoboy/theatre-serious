@@ -1,7 +1,7 @@
 /**
  * Supabase service for handling data fetching and API calls
  */
-const SupabaseService = (function() {
+window.SupabaseService = (function() {
     // Supabase credentials
     const SUPABASE_URL = 'https://egyoysnqyyqkiylrncqt.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVneW95c25xeXlxa2l5bHJuY3F0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQxNDIxMzEsImV4cCI6MjA2OTcxODEzMX0.SzeFB6aWi0oabzmXmHAmLcoE4bQyLpv1jmHQseGMFfM';
@@ -106,6 +106,9 @@ const SupabaseService = (function() {
          */
         updatePlay: async function(play) {
             console.log('supabase.js: Updating play with all fields:', play);
+            console.log('supabase.js: Review field received:', play.review);
+            console.log('supabase.js: Review field type:', typeof play.review);
+            console.log('supabase.js: Review field length:', play.review ? play.review.length : 0);
             
             try {
                 // Show all fields we're updating
