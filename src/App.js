@@ -6,7 +6,7 @@ class App {
         // Initialize components
         this.navigation = new Navigation();
         this.dashboard = new Dashboard();
-        this.tableView = new TableView();
+        this.allPlaysView = new AllPlaysView();
         this.calendarController = new CalendarController();
         this.allPlaysData = [];
         this.upcomingPlaysView = new UpcomingPlaysView();
@@ -96,7 +96,8 @@ class App {
             this.dashboard.setPlaysData(this.allPlaysData);
             this.dashboard.attachEventListeners();
         } else if (view === 'table') {
-            // Table view already initialized
+            // AllPlaysView already initialized
+            this.allPlaysView.setPlaysData(this.allPlaysData);
         } else if (view === 'calendar') {
             this.calendarController.initialize();
             this.calendarController.setPlaysData(this.allPlaysData);
@@ -139,7 +140,7 @@ class App {
             console.log('Plays data fetched:', this.allPlaysData);
             
             // Update views with data
-            this.tableView.setPlaysData(this.allPlaysData);
+            this.allPlaysView.setPlaysData(this.allPlaysData);
             this.upcomingPlaysView.setPlaysData(this.allPlaysData);
             this.pastPlaysView.setPlaysData(this.allPlaysData);
             

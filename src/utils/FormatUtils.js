@@ -5,9 +5,10 @@ class FormatUtils {
     /**
      * Format date to UK format (DD/MM/YYYY)
      * @param {string} dateString - Date string to format
+     * @param {string} format - Format string (optional, defaults to DD/MM/YYYY)
      * @returns {string} - Formatted date
      */
-    static formatDate(dateString) {
+    static formatDate(dateString, format = 'DD/MM/YYYY') {
         if (!dateString) return 'Date not specified';
         
         try {
