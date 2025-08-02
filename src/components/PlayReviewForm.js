@@ -305,6 +305,14 @@ class PlayReviewForm {
             document.dispatchEvent(new CustomEvent('playUpdated', { 
                 detail: { play: result } 
             }));
+            
+            // Navigate to the specific review page
+            const year = new Date(result.review_updated_at).getFullYear();
+            const slug = this.slugify(`${result.name} ${result.theatre || ''}`);
+            const reviewUrl = `#/reviews/${year}/${slug}`;
+            
+            console.log('Navigating to review after save:', reviewUrl);
+            window.location.hash = reviewUrl;
         } catch (error) {
             console.error('Error saving review:', error);
             alert(`Error saving review: ${error.message}`);
@@ -335,6 +343,15 @@ class PlayReviewForm {
         
         // Reset edit mode
         this.updateEditMode();
+    }
+    
+    /**
+     * Simple slugify function
+     */
+    slugify(text) {
+        return text.normalize("NFKD").replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase().replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-+|-+$/g, "").replace(/-+/g, "-");
     }
     
     /**
