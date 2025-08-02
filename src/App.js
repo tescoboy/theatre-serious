@@ -234,6 +234,11 @@ class App {
                 document.dispatchEvent(new CustomEvent('playDeleted', { 
                     detail: { playId: e.detail.playId } 
                 }));
+                
+                // Switch to All Plays view after successful deletion
+                this.handleViewChanged('all-plays');
+                
+                alert('Play deleted successfully!');
             } catch (error) {
                 console.error('Error deleting play:', error);
                 alert(`Error deleting play: ${error.message}`);
