@@ -20,8 +20,7 @@ class App {
         window.allPlaysData = []; // Global data storage
         this.hallOfFameShameView = new HallOfFameShameView();
         
-        // Initialize Router
-        this.router = new Router();
+        // Simple router is already initialized globally
         
         // Listen for view changes
         document.addEventListener('viewChanged', (e) => this.handleViewChanged(e.detail.view));

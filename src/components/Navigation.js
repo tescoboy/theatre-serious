@@ -61,8 +61,8 @@ class Navigation {
                     bsCollapse.hide();
                 }
                 
-                // Use router to navigate
-                if (window.router) {
+                // Use simple router to navigate
+                if (window.simpleRouter) {
                     const routeMap = {
                         'dashboard': '/',
                         'table-view': '/plays',
@@ -70,28 +70,12 @@ class Navigation {
                         'upcoming-plays': '/upcoming',
                         'past-plays': '/past',
                         'unrated-plays': '/unrated',
-                        'reviews': '/reviews', // This will be handled specially
+                        'reviews': '/reviews',
                         'hall-of-fame-shame': '/hall-of-fame'
                     };
                     
-                    // Special handling for reviews - go to first review's URL
-                    if (view === 'reviews') {
-                        // Get the first review's URL
-                        if (window.app && window.app.allPlaysData) {
-                            const playsWithReviews = window.app.allPlaysData.filter(play => play.review && play.review.trim() !== '');
-                            if (playsWithReviews.length > 0) {
-                                const firstReview = playsWithReviews[0];
-                                const firstReviewUrl = `/review/${firstReview.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
-                                window.router.navigate(firstReviewUrl);
-                                return;
-                            }
-                        }
-                        // Fallback to general reviews page if no reviews exist
-                        window.router.navigate('/reviews');
-                    } else {
-                        const route = routeMap[view] || '/';
-                        window.router.navigate(route);
-                    }
+                    const route = routeMap[view] || '/';
+                    window.simpleRouter.navigate(route);
                 } else {
                     // Fallback to old method
                     document.dispatchEvent(new CustomEvent('viewChanged', {

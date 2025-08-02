@@ -193,8 +193,7 @@ class ReviewsView {
                     const playsWithReviews = this.playsData.filter(play => play.review && play.review.trim() !== '');
                     const prevPlay = playsWithReviews[this.currentReviewIndex];
                     const prevPlayUrl = `/review/${prevPlay.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
-                    window.history.pushState({}, '', prevPlayUrl);
-                    this.render();
+                    window.simpleRouter.navigate(prevPlayUrl);
                 }
             });
         } else {
@@ -211,8 +210,7 @@ class ReviewsView {
                     this.currentReviewIndex++;
                     const nextPlay = playsWithReviews[this.currentReviewIndex];
                     const nextPlayUrl = `/review/${nextPlay.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
-                    window.history.pushState({}, '', nextPlayUrl);
-                    this.render();
+                    window.simpleRouter.navigate(nextPlayUrl);
                 }
             });
         } else {
