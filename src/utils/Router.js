@@ -233,23 +233,47 @@ class Router {
         // Show the reviews view
         this.showView('reviews');
         
-        // Find the ReviewsView instance and set it to show the specific review
-        if (window.reviewsView) {
-            // Find the index of the review with this play name
-            const playsWithReviews = window.reviewsView.playsData.filter(play => play.review && play.review.trim() !== '');
-            const reviewIndex = playsWithReviews.findIndex(play => 
-                play.name.toLowerCase().replace(/[^a-z0-9]/g, '-') === playName.toLowerCase()
-            );
-            
-            if (reviewIndex !== -1) {
-                window.reviewsView.currentReviewIndex = reviewIndex;
-                window.reviewsView.render();
+        // Wait a bit for the view to be ready
+        setTimeout(() => {
+            // Find the ReviewsView instance and set it to show the specific review
+            if (window.reviewsView) {
+                console.log('ReviewsView found, playsData:', window.reviewsView.playsData);
+                
+                // Find the index of the review with this play name
+                const playsWithReviews = window.reviewsView.playsData.filter(play => play.review && play.review.trim() !== '');
+                console.log('Plays with reviews:', playsWithReviews);
+                
+                const reviewIndex = playsWithReviews.findIndex(play => {
+                    const playUrlName = play.name.toLowerCase().replace(/[^a-z0-9]/g, '-');
+                    console.log(`Comparing "${playUrlName}" with "${playName.toLowerCase()}"`);
+                    return playUrlName === playName.toLowerCase();
+                });
+                
+                console.log('Found review index:', reviewIndex);
+                
+                if (reviewIndex !== -1) {
+                    window.reviewsView.currentReviewIndex = reviewIndex;
+                    window.reviewsView.render();
+                    console.log('Review rendered successfully');
+                } else {
+                    console.error('Review not found for play:', playName);
+                    // Show error message
+                    const reviewsContainer = document.getElementById('reviews-view');
+                    if (reviewsContainer) {
+                        reviewsContainer.innerHTML = `
+                            <div class="alert alert-warning" role="alert">
+                                <h4 class="alert-heading">Review Not Found</h4>
+                                <p>The review for "${playName}" doesn't exist or has been removed.</p>
+                                <hr>
+                                <a href="/reviews" class="btn btn-primary">Back to All Reviews</a>
+                            </div>
+                        `;
+                    }
+                }
             } else {
-                console.error('Review not found for play:', playName);
+                console.error('ReviewsView not found');
             }
-        } else {
-            console.error('ReviewsView not found');
-        }
+        }, 100);
     }
     
     /**

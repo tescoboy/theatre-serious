@@ -17,6 +17,7 @@ class App {
         this.reviewsView = new ReviewsView();
         window.reviewsView = this.reviewsView; // Make it globally accessible
         window.app = this; // Make the entire app instance globally accessible
+        window.allPlaysData = []; // Global data storage
         this.hallOfFameShameView = new HallOfFameShameView();
         
         // Listen for view changes
@@ -144,8 +145,13 @@ class App {
             this.allPlaysData = await SupabaseService.fetchPlays();
             console.log('Plays data fetched:', this.allPlaysData);
             
+            // Make data globally available
+            window.allPlaysData = this.allPlaysData;
+            
             // Update views with data
             this.allPlaysView.setPlaysData(this.allPlaysData);
+            this.reviewsView.setPlaysData(this.allPlaysData);
+            this.hallOfFameShameView.setPlaysData(this.allPlaysData);
             this.upcomingPlaysView.setPlaysData(this.allPlaysData);
             this.pastPlaysView.setPlaysData(this.allPlaysData);
             
