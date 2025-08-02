@@ -307,7 +307,7 @@ class PlayReviewForm {
             }));
             
             // Navigate to the specific review page
-            const year = new Date(result.review_updated_at).getFullYear();
+            const year = new Date(result.date || result.review_updated_at).getFullYear();
             const slug = this.slugify(`${result.name} ${result.theatre || ''}`);
             const reviewUrl = `#/reviews/${year}/${slug}`;
             
