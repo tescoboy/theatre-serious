@@ -1,28 +1,27 @@
-from flask import Flask, render_template, send_from_directory, jsonify, request
+from flask import Flask, send_from_directory, request
 import os
 
 app = Flask(__name__)
 
-# Serve static files with route prefix handling
+# Serve static files
 @app.route('/src/<path:filename>')
 def serve_static(filename):
-    return send_from_directory('src', filename)
-
-# Handle static files with route prefixes (like /review/src/...)
-@app.route('/<path:route>/src/<path:filename>')
-def serve_static_with_prefix(route, filename):
     return send_from_directory('src', filename)
 
 @app.route('/favicon.ico')
 def favicon():
     return send_from_directory('.', 'favicon.ico')
 
-# Handle favicon with route prefixes
+# Handle static files with route prefixes
+@app.route('/<path:route>/src/<path:filename>')
+def serve_static_with_prefix(route, filename):
+    return send_from_directory('src', filename)
+
 @app.route('/<path:route>/favicon.ico')
 def favicon_with_prefix(route):
     return send_from_directory('.', 'favicon.ico')
 
-# Main routes
+# Main routes - all serve index.html for client-side routing
 @app.route('/')
 def index():
     return send_from_directory('.', 'index.html')
@@ -31,16 +30,16 @@ def index():
 def reviews():
     return send_from_directory('.', 'index.html')
 
-@app.route('/review/<int:review_id>')
-def review_detail(review_id):
+@app.route('/review/<play_name>')
+def review_detail(play_name):
     return send_from_directory('.', 'index.html')
 
 @app.route('/plays')
 def plays():
     return send_from_directory('.', 'index.html')
 
-@app.route('/play/<int:play_id>')
-def play_detail(play_id):
+@app.route('/play/<play_name>')
+def play_detail(play_name):
     return send_from_directory('.', 'index.html')
 
 @app.route('/calendar')
@@ -65,5 +64,5 @@ def hall_of_fame():
 
 if __name__ == '__main__':
     print("Flask server running at http://localhost:8000")
-    print("This server supports proper routing for individual reviews!")
+    print("Human-friendly URLs: /review/play-name-here")
     app.run(host='0.0.0.0', port=8000, debug=True) 

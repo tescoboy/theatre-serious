@@ -152,9 +152,14 @@ class ReviewsView {
                         <div class="text-muted">
                             <small><i class="bi bi-pen me-1"></i> Review written: ${reviewDate}</small>
                         </div>
-                        <button class="btn btn-primary edit-review-btn" data-play-id="${currentPlay.id}">
-                            <i class="bi bi-pencil"></i> Edit Review
-                        </button>
+                        <div>
+                            <a href="/review/${currentPlay.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}" class="btn btn-outline-primary me-2">
+                                <i class="bi bi-link-45deg"></i> Direct Link
+                            </a>
+                            <button class="btn btn-primary edit-review-btn" data-play-id="${currentPlay.id}">
+                                <i class="bi bi-pencil"></i> Edit Review
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

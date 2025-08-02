@@ -47,19 +47,19 @@ class Router {
     handleRoute(path) {
         console.log('Router: Handling route:', path);
         
-        // Check for play-specific route (e.g., /play/123)
-        const playMatch = path.match(/^\/play\/(\d+)$/);
+        // Check for play-specific route (e.g., /play/play-name)
+        const playMatch = path.match(/^\/play\/(.+)$/);
         if (playMatch) {
-            const playId = parseInt(playMatch[1]);
-            this.showPlayDetails(playId);
+            const playName = decodeURIComponent(playMatch[1]);
+            this.showPlayDetailsByName(playName);
             return;
         }
         
-        // Check for review-specific route (e.g., /review/123)
-        const reviewMatch = path.match(/^\/review\/(\d+)$/);
+        // Check for review-specific route (e.g., /review/play-name)
+        const reviewMatch = path.match(/^\/review\/(.+)$/);
         if (reviewMatch) {
-            const playId = parseInt(reviewMatch[1]);
-            this.showReviewDetails(playId);
+            const playName = decodeURIComponent(reviewMatch[1]);
+            this.showReviewDetailsByName(playName);
             return;
         }
         
@@ -97,7 +97,72 @@ class Router {
     }
     
     /**
-     * Show play details view
+     * Show play details view by play name
+     * @param {string} playName - Name of the play to show
+     */
+    async showPlayDetailsByName(playName) {
+        console.log('Router: Showing play details for play:', playName);
+        
+        // Hide all main app views
+        this.hideAllViews();
+        
+        // Create play details container if it doesn't exist
+        let playDetailsContainer = document.getElementById('play-details-container');
+        if (!playDetailsContainer) {
+            playDetailsContainer = document.createElement('div');
+            playDetailsContainer.id = 'play-details-container';
+            playDetailsContainer.className = 'container mt-4';
+            document.body.appendChild(playDetailsContainer);
+        }
+        
+        // Show loading state
+        playDetailsContainer.innerHTML = `
+            <div class="text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2">Loading play details...</p>
+            </div>
+        `;
+        playDetailsContainer.style.display = 'block';
+        
+        try {
+            // Find play by name in the existing data
+            const play = window.app && window.app.allPlaysData ? 
+                window.app.allPlaysData.find(p => 
+                    p.name.toLowerCase().replace(/[^a-z0-9]/g, '-') === playName.toLowerCase()
+                ) : null;
+            
+            if (!play) {
+                playDetailsContainer.innerHTML = `
+                    <div class="alert alert-warning" role="alert">
+                        <h4 class="alert-heading">Play Not Found</h4>
+                        <p>The play "${playName}" doesn't exist or has been removed.</p>
+                        <hr>
+                        <a href="/" class="btn btn-primary">Back to All Plays</a>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Render play details
+            this.renderPlayDetails(play, playDetailsContainer);
+            
+        } catch (error) {
+            console.error('Error loading play details:', error);
+            playDetailsContainer.innerHTML = `
+                <div class="alert alert-danger" role="alert">
+                    <h4 class="alert-heading">Error Loading Play</h4>
+                    <p>There was an error loading the play details. Please try again.</p>
+                    <hr>
+                    <a href="/" class="btn btn-primary">Back to All Plays</a>
+                </div>
+            `;
+        }
+    }
+    
+    /**
+     * Show play details view by play ID (for backward compatibility)
      * @param {number} playId - ID of the play to show
      */
     async showPlayDetails(playId) {
@@ -159,7 +224,36 @@ class Router {
     }
     
     /**
-     * Show review details view
+     * Show review details view by play name
+     * @param {string} playName - Name of the play to show review for
+     */
+    async showReviewDetailsByName(playName) {
+        console.log('Router: Showing review details for play:', playName);
+        
+        // Show the reviews view
+        this.showView('reviews');
+        
+        // Find the ReviewsView instance and set it to show the specific review
+        if (window.reviewsView) {
+            // Find the index of the review with this play name
+            const playsWithReviews = window.reviewsView.playsData.filter(play => play.review && play.review.trim() !== '');
+            const reviewIndex = playsWithReviews.findIndex(play => 
+                play.name.toLowerCase().replace(/[^a-z0-9]/g, '-') === playName.toLowerCase()
+            );
+            
+            if (reviewIndex !== -1) {
+                window.reviewsView.currentReviewIndex = reviewIndex;
+                window.reviewsView.render();
+            } else {
+                console.error('Review not found for play:', playName);
+            }
+        } else {
+            console.error('ReviewsView not found');
+        }
+    }
+    
+    /**
+     * Show review details view by play ID (for backward compatibility)
      * @param {number} playId - ID of the play to show review for
      */
     async showReviewDetails(playId) {

@@ -16,6 +16,7 @@ class App {
         this.playReviewForm = new PlayReviewForm();
         this.reviewsView = new ReviewsView();
         window.reviewsView = this.reviewsView; // Make it globally accessible
+        window.app = this; // Make the entire app instance globally accessible
         this.hallOfFameShameView = new HallOfFameShameView();
         
         // Listen for view changes
