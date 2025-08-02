@@ -114,9 +114,15 @@ class RatingInput {
         });
         
         // Standing ovation click event
-        standingIcon.addEventListener('click', () => {
-            this.handleStandingOvationSelection();
-        });
+        console.log('RatingInput: Setting up standing ovation click event, icon found:', !!standingIcon);
+        if (standingIcon) {
+            standingIcon.addEventListener('click', () => {
+                console.log('RatingInput: Standing ovation icon clicked!');
+                this.handleStandingOvationSelection();
+            });
+        } else {
+            console.error('RatingInput: Standing ovation icon not found!');
+        }
         
         // Clear rating
         clearButton.addEventListener('click', () => {
