@@ -536,7 +536,26 @@ class Router {
             reviewDetailsContainer.style.display = 'none';
         }
         
-        // Hide main app container
+        // Hide all main view divs
+        const viewDivs = [
+            'dashboard-view',
+            'table-view', 
+            'calendar-view',
+            'upcoming-plays-view',
+            'past-plays-view',
+            'unrated-plays-view',
+            'reviews-view',
+            'hall-of-fame-shame-view'
+        ];
+        
+        viewDivs.forEach(viewId => {
+            const viewElement = document.getElementById(viewId);
+            if (viewElement) {
+                viewElement.classList.add('d-none');
+            }
+        });
+        
+        // Show main app container
         const mainAppContainer = document.getElementById('app-container');
         if (mainAppContainer) {
             mainAppContainer.style.display = 'block';
