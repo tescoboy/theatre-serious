@@ -223,6 +223,23 @@ class App {
             this.refreshData();
         });
         
+        // Listen for delete play events from AllPlaysView
+        document.addEventListener('deletePlay', async (e) => {
+            console.log('Delete play event received:', e.detail.playId);
+            try {
+                await window.SupabaseService.deletePlay(e.detail.playId);
+                console.log('Play deleted successfully');
+                
+                // Dispatch playDeleted event to refresh data
+                document.dispatchEvent(new CustomEvent('playDeleted', { 
+                    detail: { playId: e.detail.playId } 
+                }));
+            } catch (error) {
+                console.error('Error deleting play:', error);
+                alert(`Error deleting play: ${error.message}`);
+            }
+        });
+        
         // Click event for review buttons
         document.addEventListener('click', (e) => {
             if (e.target.closest('.review-play-btn')) {
