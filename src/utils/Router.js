@@ -6,7 +6,7 @@ class Router {
     constructor() {
         this.routes = {
             '/': 'dashboard',
-            '/plays': 'all-plays',
+            '/plays': 'table',
             '/calendar': 'calendar',
             '/upcoming': 'upcoming-plays',
             '/past': 'past-plays',
