@@ -86,7 +86,7 @@ class ReviewsView {
             // Get rating display
             const ratingDisplay = play.rating === 'Standing Ovation' ? 
                 '<span class="badge bg-warning text-dark"><i class="bi bi-person-standing"></i> Standing Ovation</span>' :
-                RatingDisplay.createStars(play.rating);
+                new RatingDisplay(play.rating).render();
             
             // Get first paragraph of review for preview
             const firstParagraph = play.review.split('\n')[0].substring(0, 150) + (play.review.length > 150 ? '...' : '');
