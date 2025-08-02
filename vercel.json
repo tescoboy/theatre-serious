@@ -1,8 +1,8 @@
 {
-  "buildCommand": null,
-  "outputDirectory": ".",
-  "framework": null,
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/((?!src/|.*\\.(js|css|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)).*)",
+      "destination": "/"
+    }
   ]
 } 

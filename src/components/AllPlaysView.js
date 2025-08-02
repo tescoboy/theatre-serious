@@ -226,9 +226,17 @@ class AllPlaysView {
         const standingOvations = this.plays.filter(p => 
             p.rating === 'Standing Ovation' || p.rating === 6 || p.standing_ovation
         ).length;
-        const avgRating = this.plays.filter(p => p.rating && p.rating !== '' && p.rating !== 'Standing Ovation')
-            .reduce((sum, p) => sum + parseFloat(p.rating), 0) / 
-            this.plays.filter(p => p.rating && p.rating !== '' && p.rating !== 'Standing Ovation').length;
+        const ratedPlaysForAvg = this.plays.filter(p => p.rating && p.rating !== '');
+        const avgRating = ratedPlaysForAvg.length > 0 ? 
+            ratedPlaysForAvg.reduce((sum, p) => {
+                let ratingValue;
+                if (p.rating === 'Standing Ovation' || p.rating === 6 || p.standing_ovation) {
+                    ratingValue = 6;
+                } else {
+                    ratingValue = parseFloat(p.rating);
+                }
+                return sum + ratingValue;
+            }, 0) / ratedPlaysForAvg.length : 0;
         
         statsContainer.innerHTML = `
             <div class="row g-3">
@@ -443,11 +451,8 @@ class AllPlaysView {
                 </td>
                 <td class="text-end" style="padding: 1rem 0.75rem; vertical-align: middle;">
                     <div class="btn-group btn-group-sm">
-                                                <button class="btn btn-outline-primary edit-play-btn" data-play-id="${play.id}" title="Edit Play" style="border-color: #7D2935; color: #7D2935; padding: 0.375rem 0.75rem;">
+                        <button class="btn btn-outline-primary edit-play-btn" data-play-id="${play.id}" title="Edit Play" style="border-color: #7D2935; color: #7D2935; padding: 0.375rem 0.75rem;">
                             <i class="bi bi-pencil"></i>
-                        </button>
-                        <button class="btn btn-outline-info view-play-btn" data-play-id="${play.id}" title="View Details" style="border-color: #3A7B89; color: #3A7B89; padding: 0.375rem 0.75rem;">
-                            <i class="bi bi-eye"></i>
                         </button>
                         <button class="btn btn-outline-danger delete-play-btn" data-play-id="${play.id}" title="Delete Play" style="border-color: #EA4335; color: #EA4335; padding: 0.375rem 0.75rem;">
                             <i class="bi bi-trash"></i>
@@ -471,16 +476,7 @@ class AllPlaysView {
             });
         });
         
-        // View buttons
-        document.querySelectorAll('.view-play-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const playId = parseInt(btn.getAttribute('data-play-id'));
-                if (window.router) {
-                    window.router.navigate(`/play/${playId}`);
-                }
-            });
-        });
+
         
         // Delete buttons
         document.querySelectorAll('.delete-play-btn').forEach(btn => {

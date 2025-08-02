@@ -49,8 +49,15 @@ class App {
             // Fetch data
             await this.fetchPlaysData();
             
-            // Show dashboard by default
-            this.handleViewChanged('dashboard');
+            // Check if there's a hash that indicates we should show a specific review
+            const hash = location.hash;
+            if (hash && hash.match(/^#\/reviews\/(\d{4})\/([a-z0-9-]+)$/)) {
+                // Don't show dashboard - let the hash router handle it
+                console.log('Found review hash on app init, skipping default dashboard');
+            } else {
+                // Show dashboard by default
+                this.handleViewChanged('dashboard');
+            }
             
             console.log('App initialized successfully');
         } catch (error) {

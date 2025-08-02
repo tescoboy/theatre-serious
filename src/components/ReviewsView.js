@@ -6,6 +6,10 @@ class ReviewsView {
         this.playsData = [];
         this.currentReviewIndex = 0;
         this.initialized = false;
+        this.router = null; // Will be set by router integration
+        this.currentReview = null; // Added to store specific review for URL navigation
+        this.sortedReviewsCache = null; // Cache for sorted reviews
+        this.lastPlaysDataLength = 0; // Track if data changed
         
         console.log('ReviewsView component created');
     }
@@ -21,6 +25,62 @@ class ReviewsView {
     }
     
     /**
+     * Set router instance for navigation
+     */
+    setRouter(router) {
+        this.router = router;
+    }
+    
+    /**
+     * Generate pretty URL for a review
+     */
+    generateReviewUrl(review) {
+        const slug = this.slugify(`${review.name} ${review.theatre || ''}`);
+        const year = new Date(review.date || review.review_updated_at).getFullYear();
+        return `#/reviews/${year}/${slug}`;
+    }
+    
+    /**
+     * Simple slugify function
+     */
+    slugify(text) {
+        return text.normalize("NFKD").replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase().replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-+|-+$/g, "").replace(/-+/g, "-");
+    }
+    
+    /**
+     * Get sorted plays with reviews (cached for performance)
+     */
+    getSortedReviews() {
+        // Check if cache is still valid
+        if (this.sortedReviewsCache && this.lastPlaysDataLength === this.playsData.length) {
+            return this.sortedReviewsCache;
+        }
+        
+        // Filter and sort
+        const playsWithReviews = this.playsData.filter(play => play.review && play.review.trim() !== '');
+        this.sortPlaysWithReviews(playsWithReviews);
+        
+        // Cache the result
+        this.sortedReviewsCache = playsWithReviews;
+        this.lastPlaysDataLength = this.playsData.length;
+        
+        return playsWithReviews;
+    }
+    
+    /**
+     * Sort plays with reviews by date (newest first)
+     */
+    sortPlaysWithReviews(playsWithReviews) {
+        return playsWithReviews.sort((a, b) => {
+            const dateA = a.review_updated_at ? new Date(a.review_updated_at) : new Date(0);
+            const dateB = b.review_updated_at ? new Date(b.review_updated_at) : new Date(0);
+            return dateB - dateA;
+        });
+    }
+    
+    /**
      * Set plays data
      * @param {Array} playsData - Array of play data
      */
@@ -31,14 +91,53 @@ class ReviewsView {
     }
     
     /**
+     * Find review by slug and year
+     */
+    findReviewBySlug(slug, year) {
+        console.log(`Finding review by slug: ${slug}, year: ${year}`);
+        const playsWithReviews = this.getSortedReviews();
+        console.log(`Total plays with reviews: ${playsWithReviews.length}`);
+        
+        // Use findIndex for better performance (stops on first match)
+        const foundIndex = playsWithReviews.findIndex(play => {
+            const playSlug = this.slugify(`${play.name} ${play.theatre || ''}`);
+            const playYear = new Date(play.date || play.review_updated_at).getFullYear();
+            return playSlug === slug && playYear.toString() === year;
+        });
+        
+        if (foundIndex !== -1) {
+            console.log(`Found matching review: ${playsWithReviews[foundIndex].name} at index ${foundIndex}`);
+            this.currentReviewIndex = foundIndex;
+            return playsWithReviews[foundIndex];
+        }
+        
+        console.log('No matching review found');
+        return null;
+    }
+    
+    /**
+     * Show specific review by slug and year
+     */
+    showReviewBySlug(slug, year) {
+        const review = this.findReviewBySlug(slug, year);
+        if (review) {
+            // Store the specific review to show
+            this.currentReview = review;
+            this.render();
+            return true;
+        }
+        return false;
+    }
+    
+    /**
      * Render the reviews view
      */
     render() {
         const container = document.getElementById('reviews-view');
         if (!container) return;
         
-        // Filter plays that have reviews
-        const playsWithReviews = this.playsData.filter(play => play.review && play.review.trim() !== '');
+        // Get sorted plays with reviews (cached)
+        const playsWithReviews = this.getSortedReviews();
         
         if (playsWithReviews.length === 0) {
             container.innerHTML = `
@@ -70,15 +169,23 @@ class ReviewsView {
             this.currentReviewIndex = 0;
         }
         
-        // Sort by review date (newest first)
-        playsWithReviews.sort((a, b) => {
-            const dateA = a.review_updated_at ? new Date(a.review_updated_at) : new Date(0);
-            const dateB = b.review_updated_at ? new Date(b.review_updated_at) : new Date(0);
-            return dateB - dateA;
-        });
-        
-        // Get current review
-        const currentPlay = playsWithReviews[this.currentReviewIndex];
+        // If we have a specific review to show (from URL), use it and find its position
+        let currentPlay;
+        if (this.currentReview) {
+            currentPlay = this.currentReview;
+            // Find the position of this review in the sorted array
+            const reviewIndex = playsWithReviews.findIndex(play => 
+                play.id === this.currentReview.id
+            );
+            if (reviewIndex !== -1) {
+                this.currentReviewIndex = reviewIndex;
+            }
+            // Clear the currentReview so next renders work normally
+            this.currentReview = null;
+        } else {
+            // Get current review
+            currentPlay = playsWithReviews[this.currentReviewIndex];
+        }
         
         // Format the review date
         let reviewDate = 'Date not specified';
@@ -109,21 +216,53 @@ class ReviewsView {
             .map(p => `<p>${p}</p>`)
             .join('');
         
+        // Debug: Log current review and navigation URLs
+        console.log('=== NAVIGATION DEBUG ===');
+        console.log('Current review index:', this.currentReviewIndex);
+        console.log('Current review:', currentPlay.name);
+        console.log('Current review URL:', this.generateReviewUrl(currentPlay));
+        
+        if (this.currentReviewIndex > 0) {
+            const prevReview = playsWithReviews[this.currentReviewIndex - 1];
+            console.log('Previous review:', prevReview.name);
+            console.log('Previous review URL:', this.generateReviewUrl(prevReview));
+        }
+        
+        if (this.currentReviewIndex < playsWithReviews.length - 1) {
+            const nextReview = playsWithReviews[this.currentReviewIndex + 1];
+            console.log('Next review:', nextReview.name);
+            console.log('Next review URL:', this.generateReviewUrl(nextReview));
+        }
+        console.log('=== END DEBUG ===');
+
         // Create the review HTML with premium magazine-style layout
         container.innerHTML = `
             <div class="review-container">
+                
                 <!-- Navigation and counter -->
                 <div class="review-navigation mb-4">
                     <div class="d-flex justify-content-between align-items-center">
-                        <button class="btn ${this.currentReviewIndex === 0 ? 'btn-outline-secondary' : 'btn-outline-primary'} review-nav-btn" 
-                                id="prev-review-btn" ${this.currentReviewIndex === 0 ? 'disabled' : ''}>
-                            <i class="bi bi-arrow-left"></i> Previous
-                        </button>
+                        ${this.currentReviewIndex > 0 ? `
+                            <a href="${this.generateReviewUrl(playsWithReviews[this.currentReviewIndex - 1])}" 
+                               class="btn btn-outline-primary review-nav-btn" data-nav="spa">
+                                <i class="bi bi-arrow-left"></i> Previous
+                            </a>
+                        ` : `
+                            <button class="btn btn-outline-secondary review-nav-btn" disabled>
+                                <i class="bi bi-arrow-left"></i> Previous
+                            </button>
+                        `}
                         <div class="review-counter">Review ${this.currentReviewIndex + 1} of ${playsWithReviews.length}</div>
-                        <button class="btn ${this.currentReviewIndex === playsWithReviews.length - 1 ? 'btn-outline-secondary' : 'btn-outline-primary'} review-nav-btn" 
-                                id="next-review-btn" ${this.currentReviewIndex === playsWithReviews.length - 1 ? 'disabled' : ''}>
-                            Next <i class="bi bi-arrow-right"></i>
-                        </button>
+                        ${this.currentReviewIndex < playsWithReviews.length - 1 ? `
+                            <a href="${this.generateReviewUrl(playsWithReviews[this.currentReviewIndex + 1])}" 
+                               class="btn btn-outline-primary review-nav-btn" data-nav="spa">
+                                Next <i class="bi bi-arrow-right"></i>
+                            </a>
+                        ` : `
+                            <button class="btn btn-outline-secondary review-nav-btn" disabled>
+                                Next <i class="bi bi-arrow-right"></i>
+                            </button>
+                        `}
                     </div>
                 </div>
                 
@@ -165,9 +304,14 @@ class ReviewsView {
                         <div class="text-muted">
                             <small><i class="bi bi-pen me-1"></i> Review written: ${reviewDate}</small>
                         </div>
-                        <button class="btn btn-primary edit-review-btn" data-play-id="${currentPlay.id}">
-                            <i class="bi bi-pencil"></i> Edit Review
-                        </button>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-success copy-link-btn">
+                                <i class="bi bi-link-45deg"></i> Copy link
+                            </button>
+                            <button class="btn btn-primary edit-review-btn" data-play-id="${currentPlay.id}">
+                                <i class="bi bi-pencil"></i> Edit Review
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -183,35 +327,6 @@ class ReviewsView {
     attachEventListeners() {
         console.log('Attaching review navigation event listeners');
         
-        // Previous review button
-        const prevButton = document.getElementById('prev-review-btn');
-        if (prevButton) {
-            prevButton.addEventListener('click', () => {
-                console.log('Previous review button clicked');
-                if (this.currentReviewIndex > 0) {
-                    this.currentReviewIndex--;
-                    this.render();
-                }
-            });
-        } else {
-            console.error('Previous review button not found');
-        }
-        
-        // Next review button
-        const nextButton = document.getElementById('next-review-btn');
-        if (nextButton) {
-            nextButton.addEventListener('click', () => {
-                console.log('Next review button clicked');
-                const playsWithReviews = this.playsData.filter(play => play.review && play.review.trim() !== '');
-                if (this.currentReviewIndex < playsWithReviews.length - 1) {
-                    this.currentReviewIndex++;
-                    this.render();
-                }
-            });
-        } else {
-            console.error('Next review button not found');
-        }
-        
         // Edit review button
         const editButton = document.querySelector('.edit-review-btn');
         if (editButton) {
@@ -222,5 +337,50 @@ class ReviewsView {
                 }));
             });
         }
+        
+        // Copy link button
+        const copyLinkButton = document.querySelector('.copy-link-btn');
+        if (copyLinkButton) {
+            copyLinkButton.addEventListener('click', () => {
+                const playsWithReviews = this.playsData.filter(play => play.review && play.review.trim() !== '');
+                // Sort the array the same way as in render() and findReviewBySlug()
+                this.sortPlaysWithReviews(playsWithReviews);
+                const currentPlay = playsWithReviews[this.currentReviewIndex];
+                this.shareReview(currentPlay);
+            });
+        }
+    }
+    
+    /**
+     * Copy review URL to clipboard (hash-based)
+     */
+    shareReview(review) {
+        const slug = this.slugify(`${review.name} ${review.theatre || ''}`);
+        const year = new Date(review.date || review.review_updated_at).getFullYear();
+        const url = location.origin + location.pathname + `#/reviews/${year}/${slug}`;
+        
+        console.log('Copying review URL to clipboard:', url);
+        
+        // Copy to clipboard
+        navigator.clipboard.writeText(url).then(() => {
+            // Show a temporary success message
+            const copyButton = document.querySelector('.copy-link-btn');
+            if (copyButton) {
+                const originalText = copyButton.innerHTML;
+                copyButton.innerHTML = '<i class="bi bi-check"></i> Copied!';
+                copyButton.classList.remove('btn-success');
+                copyButton.classList.add('btn-outline-success');
+                
+                setTimeout(() => {
+                    copyButton.innerHTML = originalText;
+                    copyButton.classList.remove('btn-outline-success');
+                    copyButton.classList.add('btn-success');
+                }, 2000);
+            }
+        }).catch(err => {
+            console.error('Failed to copy URL to clipboard:', err);
+            // Fallback: show the URL in an alert
+            alert(`Review URL: ${url}`);
+        });
     }
 }

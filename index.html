@@ -235,11 +235,36 @@
             <script src="src/components/ReviewsView.js?v=4"></script>
     <script src="src/components/HallOfFameShameView.js"></script>
     
-    <script>
+    <!-- Hash Router Scripts -->
+    <script type="module">
+        import { installHashBoot } from "./src/hash-router.js";
+        import { showHome, showReview } from "./src/app-renderers.js";
+        
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize the application
             const app = new App();
-            app.initialize();
+            app.initialize().then(() => {
+                // Check for hash immediately when app is ready
+                const hash = location.hash;
+                if (hash && hash.match(/^#\/reviews\/(\d{4})\/([a-z0-9-]+)$/)) {
+                    console.log('Found review hash on app ready, showing review immediately');
+                    const match = hash.match(/^#\/reviews\/(\d{4})\/([a-z0-9-]+)$/);
+                    showReview({year: match[1], slug: match[2]});
+                }
+                
+                // Install hash boot after app is initialized
+                installHashBoot({ 
+                    onHome: showHome, 
+                    onReview: ({year, slug}) => showReview({year, slug}) 
+                });
+            }).catch(error => {
+                console.error('Error initializing app:', error);
+                // Still install hash boot even if app init fails
+                installHashBoot({ 
+                    onHome: showHome, 
+                    onReview: ({year, slug}) => showReview({year, slug}) 
+                });
+            });
         });
     </script>
 </body>
