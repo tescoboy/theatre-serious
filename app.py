@@ -1,4 +1,4 @@
-from flask import Flask, send_from_directory, request
+from flask import Flask, send_from_directory
 import os
 
 app = Flask(__name__)
@@ -12,57 +12,13 @@ def serve_static(filename):
 def favicon():
     return send_from_directory('.', 'favicon.ico')
 
-# Handle static files with route prefixes
-@app.route('/<path:route>/src/<path:filename>')
-def serve_static_with_prefix(route, filename):
-    return send_from_directory('src', filename)
-
-@app.route('/<path:route>/favicon.ico')
-def favicon_with_prefix(route):
-    return send_from_directory('.', 'favicon.ico')
-
-# Main routes - all serve index.html for client-side routing
+# All routes serve index.html for simple SPA
 @app.route('/')
-def index():
-    return send_from_directory('.', 'index.html')
-
-@app.route('/reviews')
-def reviews():
-    return send_from_directory('.', 'index.html')
-
-@app.route('/review/<play_name>')
-def review_detail(play_name):
-    return send_from_directory('.', 'index.html')
-
-@app.route('/plays')
-def plays():
-    return send_from_directory('.', 'index.html')
-
-@app.route('/play/<play_name>')
-def play_detail(play_name):
-    return send_from_directory('.', 'index.html')
-
-@app.route('/calendar')
-def calendar():
-    return send_from_directory('.', 'index.html')
-
-@app.route('/upcoming')
-def upcoming():
-    return send_from_directory('.', 'index.html')
-
-@app.route('/past')
-def past():
-    return send_from_directory('.', 'index.html')
-
-@app.route('/unrated')
-def unrated():
-    return send_from_directory('.', 'index.html')
-
-@app.route('/hall-of-fame')
-def hall_of_fame():
+@app.route('/<path:path>')
+def serve_index(path=None):
     return send_from_directory('.', 'index.html')
 
 if __name__ == '__main__':
-    print("Flask server running at http://localhost:8000")
-    print("Human-friendly URLs: /review/play-name-here")
+    print("Simple Flask server running at http://localhost:8000")
+    print("No URL routing - just simple view switching")
     app.run(host='0.0.0.0', port=8000, debug=True) 

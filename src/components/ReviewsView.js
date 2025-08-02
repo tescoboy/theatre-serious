@@ -190,10 +190,7 @@ class ReviewsView {
                 console.log('Previous review button clicked');
                 if (this.currentReviewIndex > 0) {
                     this.currentReviewIndex--;
-                    const playsWithReviews = this.playsData.filter(play => play.review && play.review.trim() !== '');
-                    const prevPlay = playsWithReviews[this.currentReviewIndex];
-                    const prevPlayUrl = `/review/${prevPlay.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
-                    window.simpleRouter.navigate(prevPlayUrl);
+                    this.render();
                 }
             });
         } else {
@@ -208,9 +205,7 @@ class ReviewsView {
                 const playsWithReviews = this.playsData.filter(play => play.review && play.review.trim() !== '');
                 if (this.currentReviewIndex < playsWithReviews.length - 1) {
                     this.currentReviewIndex++;
-                    const nextPlay = playsWithReviews[this.currentReviewIndex];
-                    const nextPlayUrl = `/review/${nextPlay.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
-                    window.simpleRouter.navigate(nextPlayUrl);
+                    this.render();
                 }
             });
         } else {

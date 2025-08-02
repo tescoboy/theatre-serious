@@ -61,27 +61,10 @@ class Navigation {
                     bsCollapse.hide();
                 }
                 
-                // Use simple router to navigate
-                if (window.simpleRouter) {
-                    const routeMap = {
-                        'dashboard': '/',
-                        'table-view': '/plays',
-                        'calendar-view': '/calendar',
-                        'upcoming-plays': '/upcoming',
-                        'past-plays': '/past',
-                        'unrated-plays': '/unrated',
-                        'reviews': '/reviews',
-                        'hall-of-fame-shame': '/hall-of-fame'
-                    };
-                    
-                    const route = routeMap[view] || '/';
-                    window.simpleRouter.navigate(route);
-                } else {
-                    // Fallback to old method
-                    document.dispatchEvent(new CustomEvent('viewChanged', {
-                        detail: { view: view }
-                    }));
-                }
+                // Simple view change without URL routing
+                document.dispatchEvent(new CustomEvent('viewChanged', {
+                    detail: { view: view }
+                }));
             });
         });
         
