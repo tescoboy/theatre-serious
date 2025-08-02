@@ -228,7 +228,7 @@ class Router {
     renderPlayDetails(play, container) {
         const ratingDisplay = play.rating === 'Standing Ovation' ? 
             '<span class="badge bg-warning text-dark"><i class="bi bi-person-standing"></i> Standing Ovation</span>' :
-            RatingDisplay.createStars(play.rating);
+            new RatingDisplay(play.rating).render();
         
         const formattedDate = FormatUtils.formatDate(play.date);
         
@@ -338,7 +338,7 @@ class Router {
     renderReviewDetails(play, container) {
         const ratingDisplay = play.rating === 'Standing Ovation' ? 
             '<span class="badge bg-warning text-dark"><i class="bi bi-person-standing"></i> Standing Ovation</span>' :
-            RatingDisplay.createStars(play.rating);
+            new RatingDisplay(play.rating).render();
         
         const formattedDate = FormatUtils.formatDate(play.date);
         
