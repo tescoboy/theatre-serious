@@ -80,32 +80,9 @@ class Navigation {
             });
         }
         
-        this.tableViewLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.showTableView();
-        });
+
         
-        this.calendarViewLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.showCalendarView();
-        });
-        
-        this.upcomingPlaysLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.showUpcomingPlaysView();
-        });
-        
-        this.pastPlaysLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.showPastPlaysView();
-        });
-        
-        if (this.unratedPlaysLink) {
-            this.unratedPlaysLink.addEventListener('click', (e) => {
-                e.preventDefault();
-                this.showUnratedPlaysView();
-            });
-        }
+
         
         if (this.addPlayLink) {
             this.addPlayLink.addEventListener('click', (e) => {
