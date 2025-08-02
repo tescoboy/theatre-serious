@@ -312,7 +312,17 @@ class PlayReviewForm {
             const reviewUrl = `#/reviews/${year}/${slug}`;
             
             console.log('Navigating to review after save:', reviewUrl);
+            
+            // Set the hash and trigger the navigation
             window.location.hash = reviewUrl;
+            
+            // Also directly trigger the review navigation to ensure it works
+            if (window.app && window.app.reviewsView) {
+                const found = window.app.reviewsView.showReviewBySlug(slug, year.toString());
+                if (found) {
+                    window.app.handleViewChanged('reviews');
+                }
+            }
         } catch (error) {
             console.error('Error saving review:', error);
             alert(`Error saving review: ${error.message}`);
