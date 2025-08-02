@@ -3,11 +3,11 @@
  */
 const SupabaseService = (function() {
     // Supabase credentials
-    const SUPABASE_URL = 'https://ffdlbfogjclxdyxboftq.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZmZGxiZm9namNseGR5eGJvZnRxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQxNDQyODMsImV4cCI6MjA2OTcyMDI4M30.xFGNtXNpWU6gubWLmaMw_i0hqvd-k5R6FmdCjxGkrv0';
+    const SUPABASE_URL = 'https://egyoysnqyyqkiylrncqt.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVneW95c25xeXlxa2l5bHJuY3F0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQxNDIxMzEsImV4cCI6MjA2OTcxODEzMX0.SzeFB6aWi0oabzmXmHAmLcoE4bQyLpv1jmHQseGMFfM';
     
-    // Initialize Supabase client - the issue is here, we need to use the global object
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    // Initialize Supabase client - use the global supabase object
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     
     // Public methods
     return {

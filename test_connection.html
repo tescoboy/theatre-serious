@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Supabase Connection Test</title>
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <h1>Supabase Connection Test</h1>
+    <div id="result"></div>
+
+    <script>
+        const SUPABASE_URL = 'https://egyoysnqyyqkiylrncqt.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVneW95c25xeXlxa2l5bHJuY3F0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQxNDIxMzEsImV4cCI6MjA2OTcxODEzMX0.SzeFB6aWi0oabzmXmHAmLcoE4bQyLpv1jmHQseGMFfM';
+
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        async function testConnection() {
+            const resultDiv = document.getElementById('result');
+            
+            try {
+                console.log('Testing Supabase connection...');
+                console.log('URL:', SUPABASE_URL);
+                console.log('Project ID:', SUPABASE_URL.split('//')[1].split('.')[0]);
+                
+                // Test 1: Check if we can connect
+                const { data, error } = await supabase
+                    .from('plays')
+                    .select('*')
+                    .limit(1);
+                
+                if (error) {
+                    resultDiv.innerHTML = `<p style="color: red;">❌ Error: ${error.message}</p>`;
+                    console.error('Connection error:', error);
+                } else {
+                    resultDiv.innerHTML = `<p style="color: green;">✅ Connection successful! Found ${data.length} plays.</p>`;
+                    console.log('Connection successful:', data);
+                }
+            } catch (err) {
+                resultDiv.innerHTML = `<p style="color: red;">❌ Exception: ${err.message}</p>`;
+                console.error('Exception:', err);
+            }
+        }
+
+        testConnection();
+    </script>
+</body>
+</html> 
