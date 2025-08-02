@@ -341,7 +341,12 @@ class AddPlayForm {
         const ratingSelect = document.getElementById('play-rating');
         if (play.rating !== null && play.rating !== undefined) {
             console.log(`Setting rating select to: ${play.rating}`);
-            ratingSelect.value = play.rating.toString();
+            // Convert "Standing Ovation" to "standing" for the RatingInput component
+            if (play.rating === 'Standing Ovation') {
+                ratingSelect.value = 'standing';
+            } else {
+                ratingSelect.value = play.rating.toString();
+            }
         } else {
             ratingSelect.value = '';
         }
@@ -394,11 +399,15 @@ class AddPlayForm {
             
             console.log('Rating from form (raw):', rating, 'type:', typeof rating);
             
-            // Modified: Preserve decimal ratings instead of using parseInt
+            // Handle rating value - support both numbers and "Standing Ovation"
             let parsedRating = null;
             if (rating !== null && rating !== '' && rating !== undefined) {
-                parsedRating = parseFloat(rating); // Use parseFloat instead of parseInt to preserve decimals
-                console.log('Parsed rating (with decimals):', parsedRating);
+                if (rating === 'standing') {
+                    parsedRating = 'Standing Ovation'; // Convert to the expected database format
+                } else {
+                    parsedRating = parseFloat(rating); // Use parseFloat to preserve decimals
+                }
+                console.log('Parsed rating:', parsedRating, 'type:', typeof parsedRating);
             }
             
             const image = document.getElementById('play-image').value.trim();
