@@ -52,6 +52,11 @@ class ReviewsView {
         
         console.log(`Rendering ${playsWithReviews.length} play reviews`);
         
+        // Ensure current index is valid
+        if (this.currentReviewIndex >= playsWithReviews.length) {
+            this.currentReviewIndex = 0;
+        }
+        
         // Sort by review date (newest first)
         playsWithReviews.sort((a, b) => {
             const dateA = a.review_updated_at ? new Date(a.review_updated_at) : new Date(0);
@@ -59,108 +64,150 @@ class ReviewsView {
             return dateB - dateA;
         });
         
-        // Create a list of reviews with links to individual review pages
-        const reviewsList = playsWithReviews.map(play => {
-            // Format the review date
-            let reviewDate = 'Date not specified';
-            if (play.review_updated_at) {
-                const dateObj = new Date(play.review_updated_at);
-                reviewDate = dateObj.toLocaleDateString('en-GB', { 
-                    day: 'numeric', 
-                    month: 'long', 
-                    year: 'numeric'
-                });
-            }
-            
-            // Format the play date
-            let playDate = 'Date not specified';
-            if (play.date) {
-                const dateObj = new Date(play.date);
-                playDate = dateObj.toLocaleDateString('en-GB', { 
-                    day: 'numeric', 
-                    month: 'long', 
-                    year: 'numeric'
-                });
-            }
-            
-            // Get rating display
-            const ratingDisplay = play.rating === 'Standing Ovation' ? 
-                '<span class="badge bg-warning text-dark"><i class="bi bi-person-standing"></i> Standing Ovation</span>' :
-                new RatingDisplay(play.rating).render();
-            
-            // Get first paragraph of review for preview
-            const firstParagraph = play.review.split('\n')[0].substring(0, 150) + (play.review.length > 150 ? '...' : '');
-            
-            return `
-                <div class="col-lg-6 col-xl-4 mb-4">
-                    <div class="card h-100 shadow-sm review-card" style="border: none; border-radius: 12px; overflow: hidden;">
-                        <div class="card-body p-4">
-                            <div class="d-flex justify-content-between align-items-start mb-3">
-                                <div>
-                                    <h5 class="card-title mb-2" style="color: #7D2935; font-family: 'Playfair Display', Georgia, serif;">
-                                        ${play.name}
-                                    </h5>
-                                    <p class="text-muted mb-1 small">
-                                        <i class="bi bi-calendar-event me-1"></i>
-                                        ${playDate}
-                                    </p>
-                                    ${play.theatre ? `
-                                        <p class="text-muted mb-2 small">
-                                            <i class="bi bi-building me-1"></i>
-                                            ${play.theatre}
-                                        </p>
-                                    ` : ''}
-                                </div>
-                                <div class="text-end">
-                                    ${ratingDisplay}
-                                </div>
-                            </div>
-                            
-                            <div class="review-preview mb-3" style="color: #666; line-height: 1.5;">
-                                ${firstParagraph}
-                            </div>
-                            
-                            <div class="d-flex justify-content-between align-items-center">
-                                <small class="text-muted">
-                                    <i class="bi bi-clock me-1"></i>
-                                    Review: ${reviewDate}
-                                </small>
-                                <a href="/review/${play.id}" class="btn btn-outline-primary btn-sm">
-                                    <i class="bi bi-bookmark-star me-1"></i>
-                                    Read Full Review
-                                </a>
-                            </div>
+        // Get current review
+        const currentPlay = playsWithReviews[this.currentReviewIndex];
+        
+        // Format the review date
+        let reviewDate = 'Date not specified';
+        if (currentPlay.review_updated_at) {
+            const dateObj = new Date(currentPlay.review_updated_at);
+            reviewDate = dateObj.toLocaleDateString('en-GB', { 
+                day: 'numeric', 
+                month: 'long', 
+                year: 'numeric'
+            });
+        }
+        
+        // Format the play date
+        let playDate = 'Date not specified';
+        if (currentPlay.date) {
+            const dateObj = new Date(currentPlay.date);
+            playDate = dateObj.toLocaleDateString('en-GB', { 
+                day: 'numeric', 
+                month: 'long', 
+                year: 'numeric'
+            });
+        }
+        
+        // Format review paragraphs
+        const formattedReview = currentPlay.review
+            .split('\n')
+            .filter(p => p.trim() !== '')
+            .map(p => `<p>${p}</p>`)
+            .join('');
+        
+        // Create the review HTML with premium magazine-style layout
+        container.innerHTML = `
+            <div class="review-container">
+                <!-- Navigation and counter -->
+                <div class="review-navigation mb-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <button class="btn ${this.currentReviewIndex === 0 ? 'btn-outline-secondary' : 'btn-outline-primary'} review-nav-btn" 
+                                id="prev-review-btn" ${this.currentReviewIndex === 0 ? 'disabled' : ''}>
+                            <i class="bi bi-arrow-left"></i> Previous
+                        </button>
+                        <div class="review-counter">Review ${this.currentReviewIndex + 1} of ${playsWithReviews.length}</div>
+                        <button class="btn ${this.currentReviewIndex === playsWithReviews.length - 1 ? 'btn-outline-secondary' : 'btn-outline-primary'} review-nav-btn" 
+                                id="next-review-btn" ${this.currentReviewIndex === playsWithReviews.length - 1 ? 'disabled' : ''}>
+                            Next <i class="bi bi-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Play title and rating -->
+                <div class="review-header mb-4">
+                    <h1 class="display-4 fw-bold mb-3">${currentPlay.name}</h1>
+                    
+                    ${currentPlay.rating ? `
+                    <div class="review-rating my-4">
+                        <div class="rating-display-large">
+                            ${new RatingDisplay(currentPlay.rating, { size: 'lg' }).render()}
+                        </div>
+                    </div>
+                    ` : ''}
+                    
+                    <div class="review-meta d-flex align-items-center text-muted mb-4">
+                        <div class="venue me-4">
+                            <i class="bi bi-building me-2"></i> ${currentPlay.theatre || 'Theatre not specified'}
+                        </div>
+                        <div class="date">
+                            <i class="bi bi-calendar3 me-2"></i> ${playDate}
                         </div>
                     </div>
                 </div>
-            `;
-        }).join('');
-        
-        // Create the reviews list HTML
-        container.innerHTML = `
-            <div class="row mb-4">
-                <div class="col-12">
-                    <h2 class="h3 mb-3" style="color: #7D2935; font-family: 'Playfair Display', Georgia, serif;">
-                        <i class="bi bi-bookmark-star me-2" style="color: #D4AF37;"></i>
-                        All Reviews
-                    </h2>
-                    <p class="text-muted mb-4">Click on any review to read the full version with sharing options.</p>
+                
+                <!-- Hero image -->
+                <div class="review-hero mb-5">
+                    <img src="${currentPlay.image || 'https://placehold.co/1200x500/f3e9ea/7D2935?text=No+Image'}" 
+                         class="img-fluid rounded shadow-lg" alt="${currentPlay.name}">
+                </div>
+                
+                <!-- Review content -->
+                <div class="review-content-wrapper">
+                    <div class="review-content">
+                        ${formattedReview}
+                    </div>
+                    
+                    <div class="review-footer mt-5 pt-4 border-top d-flex justify-content-between align-items-center">
+                        <div class="text-muted">
+                            <small><i class="bi bi-pen me-1"></i> Review written: ${reviewDate}</small>
+                        </div>
+                        <button class="btn btn-primary edit-review-btn" data-play-id="${currentPlay.id}">
+                            <i class="bi bi-pencil"></i> Edit Review
+                        </button>
+                    </div>
                 </div>
             </div>
-            
-            <div class="row">
-                ${reviewsList}
-            </div>
         `;
+        
+        // Add event listeners
+        this.attachEventListeners();
     }
     
     /**
      * Attach event listeners
      */
     attachEventListeners() {
-        console.log('Attaching review event listeners');
+        console.log('Attaching review navigation event listeners');
         
-        // No event listeners needed for the new list view
-        // Each review card links directly to /review/{id}
+        // Previous review button
+        const prevButton = document.getElementById('prev-review-btn');
+        if (prevButton) {
+            prevButton.addEventListener('click', () => {
+                console.log('Previous review button clicked');
+                if (this.currentReviewIndex > 0) {
+                    this.currentReviewIndex--;
+                    this.render();
+                }
+            });
+        } else {
+            console.error('Previous review button not found');
+        }
+        
+        // Next review button
+        const nextButton = document.getElementById('next-review-btn');
+        if (nextButton) {
+            nextButton.addEventListener('click', () => {
+                console.log('Next review button clicked');
+                const playsWithReviews = this.playsData.filter(play => play.review && play.review.trim() !== '');
+                if (this.currentReviewIndex < playsWithReviews.length - 1) {
+                    this.currentReviewIndex++;
+                    this.render();
+                }
+            });
+        } else {
+            console.error('Next review button not found');
+        }
+        
+        // Edit review button
+        const editButton = document.querySelector('.edit-review-btn');
+        if (editButton) {
+            editButton.addEventListener('click', () => {
+                const playId = parseInt(editButton.getAttribute('data-play-id'));
+                document.dispatchEvent(new CustomEvent('showPlayReview', { 
+                    detail: { playId: playId }
+                }));
+            });
+        }
     }
 }
