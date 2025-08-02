@@ -1,5 +1,6 @@
 /**
  * Component for adding and editing plays
+ * Version: 1.0.1 - Added debugging for rating parsing
  */
 class AddPlayForm {
     constructor() {
