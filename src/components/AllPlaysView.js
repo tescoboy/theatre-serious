@@ -36,14 +36,14 @@ class AllPlaysView {
                 <div class="plays-header mb-4">
                     <div class="row align-items-center">
                         <div class="col-md-6">
-                            <h2 class="mb-0">
-                                <i class="bi bi-collection me-2"></i>
+                            <h2 class="mb-0" style="color: #7D2935; font-weight: 700; font-family: 'Playfair Display', Georgia, serif;">
+                                <i class="bi bi-collection me-2" style="color: #D4AF37;"></i>
                                 All Plays
                             </h2>
-                            <p class="text-muted mb-0">Manage and view all your theatre experiences</p>
+                            <p class="text-muted mb-0" style="color: #666; font-size: 1rem;">Manage and view all your theatre experiences</p>
                         </div>
                         <div class="col-md-6 text-md-end">
-                            <button class="btn btn-primary" id="add-play-btn">
+                            <button class="btn btn-primary" id="add-play-btn" style="background: linear-gradient(135deg, #7D2935 0%, #662129 100%); border: none; padding: 0.75rem 1.5rem; font-weight: 600; box-shadow: 0 4px 8px rgba(125, 41, 53, 0.3);">
                                 <i class="bi bi-plus-circle me-2"></i>
                                 Add New Play
                             </button>
@@ -55,16 +55,17 @@ class AllPlaysView {
                 <div class="plays-controls mb-4">
                     <div class="row g-3">
                         <div class="col-md-4">
-                            <div class="input-group">
-                                <span class="input-group-text">
+                            <div class="input-group" style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                                <span class="input-group-text" style="background-color: #7D2935; color: white; border: none;">
                                     <i class="bi bi-search"></i>
                                 </span>
                                 <input type="text" class="form-control" id="plays-search" 
-                                       placeholder="Search plays, theatres, reviews...">
+                                       placeholder="Search plays, theatres, reviews..." 
+                                       style="border: 1px solid #e0e0e0; border-left: none;">
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <select class="form-select" id="rating-filter">
+                            <select class="form-select" id="rating-filter" style="border: 1px solid #e0e0e0; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
                                 <option value="">All Ratings</option>
                                 <option value="5">5 Stars</option>
                                 <option value="4">4+ Stars</option>
@@ -74,12 +75,12 @@ class AllPlaysView {
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <select class="form-select" id="year-filter">
+                            <select class="form-select" id="year-filter" style="border: 1px solid #e0e0e0; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
                                 <option value="">All Years</option>
                             </select>
                         </div>
                         <div class="col-md-2">
-                            <select class="form-select" id="page-size-select">
+                            <select class="form-select" id="page-size-select" style="border: 1px solid #e0e0e0; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
                                 <option value="10">10 per page</option>
                                 <option value="25">25 per page</option>
                                 <option value="50">50 per page</option>
@@ -97,26 +98,26 @@ class AllPlaysView {
                 <!-- Table Section -->
                 <div class="plays-table-container">
                     <div class="table-responsive">
-                        <table class="table table-hover plays-table" id="plays-table">
-                            <thead class="table-light">
+                        <table class="table table-hover plays-table" id="plays-table" style="border-radius: 8px; overflow: hidden; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);">
+                            <thead style="background: linear-gradient(135deg, #7D2935 0%, #662129 100%); color: white;">
                                 <tr>
-                                    <th class="sortable" data-field="name">
-                                        Play Name <i class="bi bi-arrow-down-up text-muted"></i>
+                                    <th class="sortable" data-field="name" style="border: none; padding: 1rem 0.75rem; font-weight: 600;">
+                                        Play Name <i class="bi bi-arrow-down-up" style="color: rgba(255,255,255,0.7);"></i>
                                     </th>
-                                    <th class="sortable" data-field="date">
-                                        Date <i class="bi bi-arrow-down-up text-muted"></i>
+                                    <th class="sortable" data-field="date" style="border: none; padding: 1rem 0.75rem; font-weight: 600;">
+                                        Date <i class="bi bi-arrow-down-up" style="color: rgba(255,255,255,0.7);"></i>
                                     </th>
-                                    <th class="sortable" data-field="theatre">
-                                        Theatre <i class="bi bi-arrow-down-up text-muted"></i>
+                                    <th class="sortable" data-field="theatre" style="border: none; padding: 1rem 0.75rem; font-weight: 600;">
+                                        Theatre <i class="bi bi-arrow-down-up" style="color: rgba(255,255,255,0.7);"></i>
                                     </th>
-                                    <th class="sortable" data-field="rating">
-                                        Rating <i class="bi bi-arrow-down-up text-muted"></i>
+                                    <th class="sortable" data-field="rating" style="border: none; padding: 1rem 0.75rem; font-weight: 600;">
+                                        Rating <i class="bi bi-arrow-down-up" style="color: rgba(255,255,255,0.7);"></i>
                                     </th>
-                                    <th>Review</th>
-                                    <th class="text-end">Actions</th>
+                                    <th style="border: none; padding: 1rem 0.75rem; font-weight: 600;">Review</th>
+                                    <th class="text-end" style="border: none; padding: 1rem 0.75rem; font-weight: 600;">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody id="plays-tbody">
+                            <tbody id="plays-tbody" style="background-color: white;">
                                 <!-- Table rows will be populated here -->
                             </tbody>
                         </table>
@@ -131,10 +132,10 @@ class AllPlaysView {
                 <!-- Empty State -->
                 <div class="empty-state d-none" id="empty-state">
                     <div class="text-center py-5">
-                        <i class="bi bi-collection display-1 text-muted mb-3"></i>
-                        <h3>No plays found</h3>
-                        <p class="text-muted">Try adjusting your search or filters</p>
-                        <button class="btn btn-primary" id="clear-filters-btn">
+                        <i class="bi bi-collection display-1 mb-3" style="color: #D4AF37; font-size: 4rem;"></i>
+                        <h3 style="color: #7D2935; font-weight: 600; margin-bottom: 1rem;">No plays found</h3>
+                        <p style="color: #666; font-size: 1.1rem; margin-bottom: 2rem;">Try adjusting your search or filters</p>
+                        <button class="btn btn-primary" id="clear-filters-btn" style="background: linear-gradient(135deg, #7D2935 0%, #662129 100%); border: none; padding: 0.75rem 1.5rem; font-weight: 600; box-shadow: 0 4px 8px rgba(125, 41, 53, 0.3);">
                             <i class="bi bi-x-circle me-2"></i>
                             Clear Filters
                         </button>
@@ -241,34 +242,34 @@ class AllPlaysView {
         statsContainer.innerHTML = `
             <div class="row g-3">
                 <div class="col-md-3">
-                    <div class="card border-0 bg-primary bg-opacity-10">
+                    <div class="card border-0 shadow-sm" style="background: linear-gradient(135deg, rgba(125, 41, 53, 0.1) 0%, rgba(125, 41, 53, 0.05) 100%); border-left: 4px solid #7D2935;">
                         <div class="card-body text-center">
-                            <h3 class="text-primary mb-1">${totalPlays}</h3>
-                            <p class="text-muted mb-0">Total Plays</p>
+                            <h3 class="mb-1" style="color: #7D2935; font-weight: 700;">${totalPlays}</h3>
+                            <p class="text-muted mb-0" style="font-size: 0.9rem;">Total Plays</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="card border-0 bg-success bg-opacity-10">
+                    <div class="card border-0 shadow-sm" style="background: linear-gradient(135deg, rgba(52, 168, 83, 0.1) 0%, rgba(52, 168, 83, 0.05) 100%); border-left: 4px solid #34A853;">
                         <div class="card-body text-center">
-                            <h3 class="text-success mb-1">${ratedPlays}</h3>
-                            <p class="text-muted mb-0">Rated Plays</p>
+                            <h3 class="mb-1" style="color: #34A853; font-weight: 700;">${ratedPlays}</h3>
+                            <p class="text-muted mb-0" style="font-size: 0.9rem;">Rated Plays</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="card border-0 bg-warning bg-opacity-10">
+                    <div class="card border-0 shadow-sm" style="background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, rgba(212, 175, 55, 0.05) 100%); border-left: 4px solid #D4AF37;">
                         <div class="card-body text-center">
-                            <h3 class="text-warning mb-1">${standingOvations}</h3>
-                            <p class="text-muted mb-0">Standing Ovations</p>
+                            <h3 class="mb-1" style="color: #D4AF37; font-weight: 700;">${standingOvations}</h3>
+                            <p class="text-muted mb-0" style="font-size: 0.9rem;">Standing Ovations</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="card border-0 bg-info bg-opacity-10">
+                    <div class="card border-0 shadow-sm" style="background: linear-gradient(135deg, rgba(58, 123, 137, 0.1) 0%, rgba(58, 123, 137, 0.05) 100%); border-left: 4px solid #3A7B89;">
                         <div class="card-body text-center">
-                            <h3 class="text-info mb-1">${avgRating ? avgRating.toFixed(1) : 'N/A'}</h3>
-                            <p class="text-muted mb-0">Avg Rating</p>
+                            <h3 class="mb-1" style="color: #3A7B89; font-weight: 700;">${avgRating ? avgRating.toFixed(1) : 'N/A'}</h3>
+                            <p class="text-muted mb-0" style="font-size: 0.9rem;">Avg Rating</p>
                         </div>
                     </div>
                 </div>
@@ -387,9 +388,10 @@ class AllPlaysView {
                 icon.className = this.sortDirection === 'asc' 
                     ? 'bi bi-caret-up-fill' 
                     : 'bi bi-caret-down-fill';
-                icon.classList.remove('text-muted');
+                icon.style.color = '#D4AF37';
             } else {
-                icon.className = 'bi bi-arrow-down-up text-muted';
+                icon.className = 'bi bi-arrow-down-up';
+                icon.style.color = 'rgba(255,255,255,0.7)';
             }
         });
     }
@@ -433,30 +435,30 @@ class AllPlaysView {
             '<span class="text-muted">No review</span>';
         
         return `
-            <tr data-play-id="${play.id}">
-                <td>
+            <tr data-play-id="${play.id}" style="border-bottom: 1px solid #f0f0f0; transition: background-color 0.2s ease;">
+                <td style="padding: 1rem 0.75rem; vertical-align: middle;">
                     <div class="d-flex align-items-center">
-                        <div class="play-name fw-medium">${play.name || 'Untitled'}</div>
-                        ${play.standing_ovation ? '<i class="bi bi-person-standing text-warning ms-2" title="Standing Ovation"></i>' : ''}
+                        <div class="play-name fw-medium" style="color: #333; font-size: 1rem;">${play.name || 'Untitled'}</div>
+                        ${play.standing_ovation ? '<i class="bi bi-person-standing ms-2" style="color: #D4AF37; font-size: 1.1rem;" title="Standing Ovation"></i>' : ''}
                     </div>
                 </td>
-                <td>${date}</td>
-                <td>${play.theatre || '<span class="text-muted">Unknown</span>'}</td>
-                <td>${ratingDisplay}</td>
-                <td>
-                    <div class="review-preview text-muted small">
+                <td style="padding: 1rem 0.75rem; vertical-align: middle; color: #666; font-size: 0.95rem;">${date}</td>
+                <td style="padding: 1rem 0.75rem; vertical-align: middle; color: #666; font-size: 0.95rem;">${play.theatre || '<span style="color: #999;">Unknown</span>'}</td>
+                <td style="padding: 1rem 0.75rem; vertical-align: middle;">${ratingDisplay}</td>
+                <td style="padding: 1rem 0.75rem; vertical-align: middle;">
+                    <div class="review-preview" style="color: #666; font-size: 0.9rem; line-height: 1.4;">
                         ${reviewPreview}
                     </div>
                 </td>
-                <td class="text-end">
+                <td class="text-end" style="padding: 1rem 0.75rem; vertical-align: middle;">
                     <div class="btn-group btn-group-sm">
-                        <button class="btn btn-outline-primary edit-play-btn" data-play-id="${play.id}" title="Edit Play">
+                        <button class="btn btn-outline-primary edit-play-btn" data-play-id="${play.id}" title="Edit Play" style="border-color: #7D2935; color: #7D2935; padding: 0.375rem 0.75rem;">
                             <i class="bi bi-pencil"></i>
                         </button>
-                        <button class="btn btn-outline-info view-play-btn" data-play-id="${play.id}" title="View Details">
+                        <button class="btn btn-outline-info view-play-btn" data-play-id="${play.id}" title="View Details" style="border-color: #3A7B89; color: #3A7B89; padding: 0.375rem 0.75rem;">
                             <i class="bi bi-eye"></i>
                         </button>
-                        <button class="btn btn-outline-danger delete-play-btn" data-play-id="${play.id}" title="Delete Play">
+                        <button class="btn btn-outline-danger delete-play-btn" data-play-id="${play.id}" title="Delete Play" style="border-color: #EA4335; color: #EA4335; padding: 0.375rem 0.75rem;">
                             <i class="bi bi-trash"></i>
                         </button>
                     </div>
@@ -513,17 +515,17 @@ class AllPlaysView {
         
         let paginationHtml = `
             <div class="d-flex justify-content-between align-items-center">
-                <div class="pagination-info">
+                <div class="pagination-info" style="color: #666; font-size: 0.95rem;">
                     Showing ${(this.currentPage - 1) * this.pageSize + 1} to ${Math.min(this.currentPage * this.pageSize, this.filteredPlays.length)} of ${this.filteredPlays.length} plays
                 </div>
                 <nav>
-                    <ul class="pagination pagination-sm mb-0">
+                    <ul class="pagination pagination-sm mb-0" style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
         `;
         
         // Previous button
         paginationHtml += `
             <li class="page-item ${this.currentPage <= 1 ? 'disabled' : ''}">
-                <a class="page-link" href="#" data-page="${this.currentPage - 1}">
+                <a class="page-link" href="#" data-page="${this.currentPage - 1}" style="color: #7D2935; border-color: #e0e0e0;">
                     <i class="bi bi-chevron-left"></i>
                 </a>
             </li>
@@ -550,7 +552,7 @@ class AllPlaysView {
         for (let i = startPage; i <= endPage; i++) {
             paginationHtml += `
                 <li class="page-item ${i === this.currentPage ? 'active' : ''}">
-                    <a class="page-link" href="#" data-page="${i}">${i}</a>
+                    <a class="page-link" href="#" data-page="${i}" style="color: ${i === this.currentPage ? 'white' : '#7D2935'}; background-color: ${i === this.currentPage ? '#7D2935' : 'white'}; border-color: #e0e0e0;">${i}</a>
                 </li>
             `;
         }
@@ -567,7 +569,7 @@ class AllPlaysView {
         // Next button
         paginationHtml += `
             <li class="page-item ${this.currentPage >= totalPages ? 'disabled' : ''}">
-                <a class="page-link" href="#" data-page="${this.currentPage + 1}">
+                <a class="page-link" href="#" data-page="${this.currentPage + 1}" style="color: #7D2935; border-color: #e0e0e0;">
                     <i class="bi bi-chevron-right"></i>
                 </a>
             </li>
