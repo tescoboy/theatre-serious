@@ -124,16 +124,18 @@ class App {
      */
     async fetchPlaysData() {
         try {
-            // Show loading state
+            // Show loading state (only if message container exists)
             const messageContainer = document.getElementById('message-container');
-            messageContainer.innerHTML = `
-                <div class="d-flex align-items-center">
-                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                    Loading plays data...
-                </div>
-            `;
-            messageContainer.classList.remove('d-none', 'alert-danger');
-            messageContainer.classList.add('alert-info');
+            if (messageContainer) {
+                messageContainer.innerHTML = `
+                    <div class="d-flex align-items-center">
+                        <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                        Loading plays data...
+                    </div>
+                `;
+                messageContainer.classList.remove('d-none', 'alert-danger');
+                messageContainer.classList.add('alert-info');
+            }
             
             // Fetch data
             this.allPlaysData = await SupabaseService.fetchPlays();
@@ -152,14 +154,16 @@ class App {
         } catch (error) {
             console.error('Error fetching plays:', error.message);
             const messageContainer = document.getElementById('message-container');
-            messageContainer.innerHTML = `
-                <div class="d-flex align-items-center">
-                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
-                    Error: ${error.message}
-                </div>
-            `;
-            messageContainer.classList.remove('alert-info');
-            messageContainer.classList.add('alert-danger');
+            if (messageContainer) {
+                messageContainer.innerHTML = `
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        Error: ${error.message}
+                    </div>
+                `;
+                messageContainer.classList.remove('alert-info');
+                messageContainer.classList.add('alert-danger');
+            }
             throw error;
         }
     }
