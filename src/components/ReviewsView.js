@@ -152,14 +152,9 @@ class ReviewsView {
                         <div class="text-muted">
                             <small><i class="bi bi-pen me-1"></i> Review written: ${reviewDate}</small>
                         </div>
-                        <div>
-                            <a href="/review/${currentPlay.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}" class="btn btn-outline-primary me-2">
-                                <i class="bi bi-link-45deg"></i> Direct Link
-                            </a>
-                            <button class="btn btn-primary edit-review-btn" data-play-id="${currentPlay.id}">
-                                <i class="bi bi-pencil"></i> Edit Review
-                            </button>
-                        </div>
+                        <button class="btn btn-primary edit-review-btn" data-play-id="${currentPlay.id}">
+                            <i class="bi bi-pencil"></i> Edit Review
+                        </button>
                     </div>
                 </div>
             </div>
@@ -182,6 +177,10 @@ class ReviewsView {
                 console.log('Previous review button clicked');
                 if (this.currentReviewIndex > 0) {
                     this.currentReviewIndex--;
+                    const playsWithReviews = this.playsData.filter(play => play.review && play.review.trim() !== '');
+                    const prevPlay = playsWithReviews[this.currentReviewIndex];
+                    const prevPlayUrl = `/review/${prevPlay.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
+                    window.history.pushState({}, '', prevPlayUrl);
                     this.render();
                 }
             });
@@ -197,6 +196,9 @@ class ReviewsView {
                 const playsWithReviews = this.playsData.filter(play => play.review && play.review.trim() !== '');
                 if (this.currentReviewIndex < playsWithReviews.length - 1) {
                     this.currentReviewIndex++;
+                    const nextPlay = playsWithReviews[this.currentReviewIndex];
+                    const nextPlayUrl = `/review/${nextPlay.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
+                    window.history.pushState({}, '', nextPlayUrl);
                     this.render();
                 }
             });
