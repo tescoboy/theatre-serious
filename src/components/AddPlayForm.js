@@ -38,8 +38,10 @@ class AddPlayForm {
         this.ratingInput = new RatingInput({
             containerId: 'play-rating-container',
             onChange: (value) => {
-                console.log('Rating changed:', value);
+                console.log('Rating changed:', value, 'type:', typeof value);
+                console.log('Rating changed (stringified):', JSON.stringify(value));
                 document.getElementById('play-rating').value = value;
+                console.log('Hidden input value after setting:', document.getElementById('play-rating').value);
             }
         });
         
@@ -398,6 +400,8 @@ class AddPlayForm {
             const rating = document.getElementById('play-rating').value;
             
             console.log('Rating from form (raw):', rating, 'type:', typeof rating);
+            console.log('Rating from form (stringified):', JSON.stringify(rating));
+            console.log('Rating from form (length):', rating ? rating.length : 'null/undefined');
             
             // Handle rating value - support both numbers and "Standing Ovation"
             let parsedRating = null;
