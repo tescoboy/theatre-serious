@@ -35,18 +35,12 @@ class AllPlaysView {
                 <!-- Header Section -->
                 <div class="plays-header mb-4">
                     <div class="row align-items-center">
-                        <div class="col-md-6">
+                        <div class="col-12">
                             <h2 class="mb-0" style="color: #7D2935; font-weight: 700; font-family: 'Playfair Display', Georgia, serif;">
                                 <i class="bi bi-collection me-2" style="color: #D4AF37;"></i>
                                 All Plays
                             </h2>
                             <p class="text-muted mb-0" style="color: #666; font-size: 1rem;">Manage and view all your theatre experiences</p>
-                        </div>
-                        <div class="col-md-6 text-md-end">
-                            <button class="btn btn-primary" id="add-play-btn" style="background: linear-gradient(135deg, #7D2935 0%, #662129 100%); border: none; padding: 0.75rem 1.5rem; font-weight: 600; box-shadow: 0 4px 8px rgba(125, 41, 53, 0.3);">
-                                <i class="bi bi-plus-circle me-2"></i>
-                                Add New Play
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -182,10 +176,7 @@ class AllPlaysView {
             });
         });
         
-        // Add play button
-        document.getElementById('add-play-btn').addEventListener('click', () => {
-            document.dispatchEvent(new CustomEvent('showAddPlayForm'));
-        });
+
         
         // Clear filters
         document.getElementById('clear-filters-btn').addEventListener('click', () => {
