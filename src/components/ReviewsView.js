@@ -52,6 +52,19 @@ class ReviewsView {
         
         console.log(`Rendering ${playsWithReviews.length} play reviews`);
         
+        // Handle case when no specific review was found
+        if (this.currentReviewIndex === -1) {
+            container.innerHTML = `
+                <div class="alert alert-warning" role="alert">
+                    <h4 class="alert-heading">Review Not Found</h4>
+                    <p>The requested review doesn't exist or has been removed.</p>
+                    <hr>
+                    <a href="/reviews" class="btn btn-primary">Back to All Reviews</a>
+                </div>
+            `;
+            return;
+        }
+        
         // Ensure current index is valid
         if (this.currentReviewIndex >= playsWithReviews.length) {
             this.currentReviewIndex = 0;
