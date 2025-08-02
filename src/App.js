@@ -20,6 +20,9 @@ class App {
         window.allPlaysData = []; // Global data storage
         this.hallOfFameShameView = new HallOfFameShameView();
         
+        // Initialize Router
+        this.router = new Router();
+        
         // Listen for view changes
         document.addEventListener('viewChanged', (e) => this.handleViewChanged(e.detail.view));
         
@@ -47,8 +50,8 @@ class App {
             // Fetch data
             await this.fetchPlaysData();
             
-            // Initialize the starting view (dashboard)
-            this.handleViewChanged('dashboard');
+            // Let the Router handle the initial route
+            // The Router will automatically detect the current URL and show the appropriate view
             
             console.log('App initialized successfully');
         } catch (error) {
