@@ -313,14 +313,16 @@ class PlayReviewForm {
             
             console.log('Navigating to review after save:', reviewUrl);
             
-            // Set the hash and trigger the navigation
-            window.location.hash = reviewUrl;
-            
-            // Also directly trigger the review navigation to ensure it works
+            // First, directly navigate to the review
             if (window.app && window.app.reviewsView) {
                 const found = window.app.reviewsView.showReviewBySlug(slug, year.toString());
                 if (found) {
+                    // Switch to reviews view first
                     window.app.handleViewChanged('reviews');
+                    // Then update the URL
+                    setTimeout(() => {
+                        window.location.hash = reviewUrl;
+                    }, 100);
                 }
             }
         } catch (error) {
