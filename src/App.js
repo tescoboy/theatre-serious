@@ -237,4 +237,4 @@ class App {
             console.error('Error refreshing data:', error);
         }
     }
-} 
+} // Force deployment - Sat Aug  2 17:59:09 BST 2025
