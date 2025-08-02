@@ -70,12 +70,28 @@ class Navigation {
                         'upcoming-plays': '/upcoming',
                         'past-plays': '/past',
                         'unrated-plays': '/unrated',
-                        'reviews': '/reviews',
+                        'reviews': '/reviews', // This will be handled specially
                         'hall-of-fame-shame': '/hall-of-fame'
                     };
                     
-                    const route = routeMap[view] || '/';
-                    window.router.navigate(route);
+                    // Special handling for reviews - go to first review's URL
+                    if (view === 'reviews') {
+                        // Get the first review's URL
+                        if (window.app && window.app.allPlaysData) {
+                            const playsWithReviews = window.app.allPlaysData.filter(play => play.review && play.review.trim() !== '');
+                            if (playsWithReviews.length > 0) {
+                                const firstReview = playsWithReviews[0];
+                                const firstReviewUrl = `/review/${firstReview.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}`;
+                                window.router.navigate(firstReviewUrl);
+                                return;
+                            }
+                        }
+                        // Fallback to general reviews page if no reviews exist
+                        window.router.navigate('/reviews');
+                    } else {
+                        const route = routeMap[view] || '/';
+                        window.router.navigate(route);
+                    }
                 } else {
                     // Fallback to old method
                     document.dispatchEvent(new CustomEvent('viewChanged', {
