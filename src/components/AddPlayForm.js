@@ -422,6 +422,7 @@ class AddPlayForm {
             };
             
             console.log('Saving play with rating:', play.rating, 'type:', typeof play.rating);
+            console.log('Full play object being saved:', JSON.stringify(play, null, 2));
             
             // Add ID if editing
             if (this.editMode) {
@@ -442,6 +443,7 @@ class AddPlayForm {
             }
             
             console.log('Save result with rating:', result.rating, 'type:', typeof result.rating);
+            console.log('Full result object from database:', JSON.stringify(result, null, 2));
             
             // Hide modal
             this.modal.hide();

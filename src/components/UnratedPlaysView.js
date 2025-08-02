@@ -37,6 +37,11 @@ class UnratedPlaysView {
             // Check if it has no rating or rating is empty
             const hasNoRating = !play.rating || play.rating === '';
             
+            // Debug: Log plays that might be incorrectly categorized
+            if (play.rating === 'Standing Ovation') {
+                console.log('UnratedPlaysView: Found play with Standing Ovation rating:', play.name, 'rating:', play.rating);
+            }
+            
             // Find the date field
             const dateFields = ['date', 'performance_date', 'play_date', 'viewed_date'];
             let playDate = null;
@@ -56,7 +61,14 @@ class UnratedPlaysView {
             }
             
             // Keep only past plays without ratings
-            return playDate && playDate <= now && hasNoRating;
+            const shouldInclude = playDate && playDate <= now && hasNoRating;
+            
+            // Debug: Log plays being included in unrated
+            if (shouldInclude && play.rating) {
+                console.log('UnratedPlaysView: Including play in unrated despite having rating:', play.name, 'rating:', play.rating, 'type:', typeof play.rating);
+            }
+            
+            return shouldInclude;
         });
         
         // Sort by date (descending - most recent first)
